@@ -780,6 +780,14 @@ section {
   padding: 1rem 2.5rem;
 }
 
+/* Android Coming Soon */
+.android-coming-soon {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-style: italic;
+}
+
 @media (min-width: 768px) {
   .cta-box { padding: 5rem 3rem; }
 }
