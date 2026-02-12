@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join ReferVo - You've Been Invited!</title>
+  <meta name="description" content="You've been invited to join ReferVo - the referral marketplace for local businesses. Download the app and start earning from your network.">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Join ReferVo - You've Been Invited!">
+  <meta property="og:description" content="A business partner invited you to ReferVo. Download the app and start earning from referrals.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://refervo.com/join">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  
+  <script>
+    // Handle GitHub Pages SPA routing
+    // If this is a /join/CODE path, redirect to join page with query param
+    (function() {
+      var path = window.location.pathname;
+      var joinMatch = path.match(/^\/join\/([A-Za-z0-9]+)\/?$/);
+      if (joinMatch) {
+        var code = joinMatch[1];
+        window.location.replace('/join/?code=' + code);
+      }
+    })();
+  </script>
+  
+  <style>
+    :root {
+      --orange: #f97316;
+      --orange-light: #fb923c;
+      --orange-dark: #ea580c;
+      --black: #1a1a1a;
+      --white: #ffffff;
+      --gray-text: #6b7280;
+      --gray-light: #f3f4f6;
+      --gray-border: #e5e7eb;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+    
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: var(--font-body);
+      background: linear-gradient(180deg, var(--gray-light) 0%, var(--white) 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+    
+    .container {
+      max-width: 420px;
+      width: 100%;
+    }
+    
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+    
+    .logo-refer { color: var(--orange); }
+    .logo-vo { color: var(--black); }
+    
+    /* Card */
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    }
+    
+    .icon-404 {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+    
+    h1 {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+    
+    .subtitle {
+      color: var(--gray-text);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      width: 100%;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 1rem 1.5rem;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+      background: var(--orange);
+      color: var(--white);
+    }
+    
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(249, 115, 22, 0.3);
+    }
+    
+    /* Footer */
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: var(--gray-text);
+    }
+    
+    .footer a {
+      color: var(--orange);
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Logo -->
+    <div class="logo">
+      <span class="logo-refer">Refer</span><span class="logo-vo">Vo</span>
+    </div>
+    
+    <!-- Main Card -->
+    <div class="card">
+      <div class="icon-404">🔍</div>
+      
+      <h1>Page Not Found</h1>
+      <p class="subtitle">
+        The page you're looking for doesn't exist. Let's get you back on track.
+      </p>
+      
+      <a href="https://refervo.com" class="btn btn-primary">
+        Go to Homepage
+      </a>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+      <a href="https://refervo.com">refervo.com</a> · 
+      <a href="https://refervo.com/privacy.html">Privacy</a> · 
+      <a href="https://refervo.com/terms.html">Terms</a>
+    </div>
+  </div>
+</body>
+</html>
