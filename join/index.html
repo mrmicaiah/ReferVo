@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join ReferVo - You've Been Invited!</title>
+  <meta name="description" content="You've been invited to join ReferVo - the referral marketplace for local businesses. Download the app and start earning from your network.">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Join ReferVo - You've Been Invited!">
+  <meta property="og:description" content="A business partner invited you to ReferVo. Download the app and start earning from referrals.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://refervo.com/join">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --orange: #f97316;
+      --orange-light: #fb923c;
+      --orange-dark: #ea580c;
+      --black: #1a1a1a;
+      --white: #ffffff;
+      --gray-text: #6b7280;
+      --gray-light: #f3f4f6;
+      --gray-border: #e5e7eb;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+    
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: var(--font-body);
+      background: linear-gradient(180deg, var(--gray-light) 0%, var(--white) 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+    
+    .container {
+      max-width: 420px;
+      width: 100%;
+    }
+    
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+    
+    .logo-refer { color: var(--orange); }
+    .logo-vo { color: var(--black); }
+    
+    /* Card */
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    }
+    
+    .invite-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2.5rem;
+    }
+    
+    h1 {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+    
+    .subtitle {
+      color: var(--gray-text);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    
+    /* Referral Code Box */
+    .code-box {
+      background: var(--gray-light);
+      border: 2px dashed var(--gray-border);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .code-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray-text);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    
+    .code-value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--orange);
+      letter-spacing: 0.1em;
+    }
+    
+    .code-hint {
+      font-size: 0.8rem;
+      color: var(--gray-text);
+      margin-top: 0.5rem;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      width: 100%;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 1rem 1.5rem;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+      background: var(--black);
+      color: var(--white);
+    }
+    
+    .btn-primary:hover {
+      background: #2d2d2d;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn-primary svg {
+      width: 24px;
+      height: 24px;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--gray-text);
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-top: 1rem;
+      padding: 0.75rem;
+    }
+    
+    .btn-secondary:hover {
+      color: var(--orange);
+    }
+    
+    /* Android note */
+    .android-note {
+      font-size: 0.85rem;
+      color: var(--gray-text);
+      margin-top: 1.5rem;
+      font-style: italic;
+    }
+    
+    /* Loading State */
+    .loading {
+      display: none;
+    }
+    
+    body.is-loading .loading {
+      display: block;
+    }
+    
+    body.is-loading .card {
+      display: none;
+    }
+    
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--gray-light);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .loading-text {
+      color: var(--gray-text);
+      font-size: 1rem;
+    }
+    
+    /* Footer */
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: var(--gray-text);
+    }
+    
+    .footer a {
+      color: var(--orange);
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Logo -->
+    <div class="logo">
+      <span class="logo-refer">Refer</span><span class="logo-vo">Vo</span>
+    </div>
+    
+    <!-- Loading State -->
+    <div class="loading">
+      <div class="spinner"></div>
+      <p class="loading-text">Taking you to the App Store...</p>
+    </div>
+    
+    <!-- Main Card -->
+    <div class="card">
+      <div class="invite-icon">🤝</div>
+      
+      <h1>You've Been Invited!</h1>
+      <p class="subtitle">
+        A business partner wants to connect with you on ReferVo — the app where local businesses earn money from referrals.
+      </p>
+      
+      <div class="code-box">
+        <div class="code-label">Your Referral Code</div>
+        <div class="code-value" id="referralCode">—</div>
+        <div class="code-hint">Enter this during signup</div>
+      </div>
+      
+      <a href="#" id="downloadBtn" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+        </svg>
+        Download on App Store
+      </a>
+      
+      <a href="https://refervo.com" class="btn btn-secondary">
+        Learn more about ReferVo →
+      </a>
+      
+      <p class="android-note">Android coming soon!</p>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+      <a href="https://refervo.com">refervo.com</a> · 
+      <a href="https://refervo.com/privacy.html">Privacy</a> · 
+      <a href="https://refervo.com/terms.html">Terms</a>
+    </div>
+  </div>
+  
+  <script>
+    (function() {
+      // App Store URL - UPDATE THIS when app is published
+      const APP_STORE_URL = 'https://apps.apple.com/app/refervo/id0000000000';
+      const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.refervo.app';
+      
+      // Extract referral code from URL
+      // Supports: /join/ABC123 or /join/?code=ABC123 or /join/index.html?code=ABC123
+      function getReferralCode() {
+        const path = window.location.pathname;
+        const params = new URLSearchParams(window.location.search);
+        
+        // Check query param first
+        if (params.has('code')) {
+          return params.get('code').toUpperCase();
+        }
+        
+        // Check path: /join/ABC123
+        const pathMatch = path.match(/\/join\/([A-Za-z0-9]+)\/?$/);
+        if (pathMatch) {
+          return pathMatch[1].toUpperCase();
+        }
+        
+        return null;
+      }
+      
+      // Detect device
+      function getDevice() {
+        const ua = navigator.userAgent || navigator.vendor || window.opera;
+        if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+          return 'ios';
+        }
+        if (/android/i.test(ua)) {
+          return 'android';
+        }
+        return 'desktop';
+      }
+      
+      // Get store URL based on device
+      function getStoreUrl() {
+        const device = getDevice();
+        if (device === 'ios') {
+          return APP_STORE_URL;
+        }
+        if (device === 'android') {
+          return PLAY_STORE_URL;
+        }
+        // Desktop defaults to App Store
+        return APP_STORE_URL;
+      }
+      
+      // Initialize
+      const code = getReferralCode();
+      const device = getDevice();
+      const storeUrl = getStoreUrl();
+      
+      // Display referral code
+      const codeElement = document.getElementById('referralCode');
+      if (code) {
+        codeElement.textContent = code;
+        
+        // Store in localStorage so app can potentially read it
+        try {
+          localStorage.setItem('refervo_referral_code', code);
+        } catch (e) {}
+      } else {
+        codeElement.textContent = '—';
+        document.querySelector('.code-hint').textContent = 'No code provided';
+      }
+      
+      // Set up download button
+      const downloadBtn = document.getElementById('downloadBtn');
+      downloadBtn.href = storeUrl;
+      
+      // Update button text for Android
+      if (device === 'android') {
+        downloadBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+            <path d="M17.523 2.047a.5.5 0 0 0-.707 0l-1.89 1.89A7.48 7.48 0 0 0 12 3a7.48 7.48 0 0 0-2.926.937l-1.89-1.89a.5.5 0 0 0-.707.707l1.72 1.72A7.5 7.5 0 0 0 4.5 11v8A2.5 2.5 0 0 0 7 21.5h10a2.5 2.5 0 0 0 2.5-2.5v-8a7.5 7.5 0 0 0-3.697-6.526l1.72-1.72a.5.5 0 0 0 0-.707zM9 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm6 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+          </svg>
+          Get it on Google Play
+        `;
+        document.querySelector('.android-note').style.display = 'none';
+      }
+      
+      // Auto-redirect on mobile (with slight delay for UX)
+      if (device === 'ios' || device === 'android') {
+        document.body.classList.add('is-loading');
+        
+        setTimeout(function() {
+          // Try to open deep link first (if app is installed)
+          if (code) {
+            const deepLink = 'refervo://join?code=' + code;
+            
+            // Create hidden iframe to try deep link
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = deepLink;
+            document.body.appendChild(iframe);
+            
+            // Fallback to store after short delay
+            setTimeout(function() {
+              document.body.classList.remove('is-loading');
+              window.location.href = storeUrl;
+            }, 1500);
+          } else {
+            // No code, go straight to store
+            setTimeout(function() {
+              document.body.classList.remove('is-loading');
+              window.location.href = storeUrl;
+            }, 500);
+          }
+        }, 300);
+      }
+    })();
+  </script>
+</body>
+</html>
