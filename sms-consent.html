@@ -9,6 +9,30 @@
   <link rel="icon" type="image/png" href="images/icon.png">
   <link rel="apple-touch-icon" href="images/icon.png">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .screenshot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    .screenshot-item {
+      text-align: center;
+    }
+    .screenshot-item img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      border: 1px solid #e5e7eb;
+    }
+    .screenshot-item p {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #6b7280;
+      font-weight: 500;
+    }
+  </style>
 </head>
 <body>
   <nav class="nav">
@@ -65,6 +89,14 @@
           <li>Users must tap "I Agree" to enable SMS notifications</li>
           <li>This consent is recorded in our database with a timestamp</li>
         </ol>
+        
+        <div class="screenshot-grid">
+          <div class="screenshot-item">
+            <img src="https://res.cloudinary.com/dxzw1zwez/image/upload/w_400/q_auto/f_auto/IMG_0423_qg3d0y" alt="SMS Notification Consent Modal in ReferVo App">
+            <p>SMS Notification Consent Modal</p>
+          </div>
+        </div>
+        
         <p>Users can disable SMS notifications at any time through the app settings or by replying STOP to any message.</p>
         
         <h2>Consent for Referred Leads</h2>
@@ -76,6 +108,13 @@
         <p>Before sending any lead, the referring user must check a box confirming:</p>
         <p><em>"This person has agreed to be contacted about this referral."</em></p>
         <p>This ensures the sender has obtained verbal or written permission from the lead before entering their information into ReferVo.</p>
+        
+        <div class="screenshot-grid">
+          <div class="screenshot-item">
+            <img src="https://res.cloudinary.com/dxzw1zwez/image/upload/w_400/q_auto/f_auto/IMG_0422_fveuke" alt="Send Lead Consent Checkbox in ReferVo App">
+            <p>Send Lead Consent Confirmation Checkbox</p>
+          </div>
+        </div>
         
         <h4>Step 2: Lead Verification via SMS</h4>
         <p>After the sender confirms consent, ReferVo sends a single SMS to the referred lead asking them to verify their consent:</p>
