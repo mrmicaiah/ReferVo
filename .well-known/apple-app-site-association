@@ -1,0 +1,20 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "GT5KH2GTWZ.com.untitledpublishers.refervo",
+        "appIDs": ["GT5KH2GTWZ.com.untitledpublishers.refervo"],
+        "components": [
+          {
+            "/": "/join/*",
+            "comment": "Referral invite links"
+          }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["GT5KH2GTWZ.com.untitledpublishers.refervo"]
+  }
+}
