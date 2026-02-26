@@ -293,6 +293,10 @@
   
   <script>
     (function() {
+      // Supabase config for tracking
+      const SUPABASE_URL = 'https://cbddrhejxrynlhfahulz.supabase.co';
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNiZGRyaGVqeHJ5bmxoZmFodWx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgwMTEyMTgsImV4cCI6MjA1MzU4NzIxOH0.UJukTJwM3A6Foa2dJx8xPJl6E5dLWMHiLWIYizcPkwI';
+      
       // App Store URL - ReferVo Apple ID: 6759116716
       const APP_STORE_URL = 'https://apps.apple.com/app/refervo/id6759116716';
       const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.refervo.app';
@@ -315,6 +319,51 @@
         }
         
         return null;
+      }
+      
+      // Extract campaign code from URL (?c=campaign-code)
+      function getCampaignCode() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('c') || params.get('campaign') || null;
+      }
+      
+      // Simple hash for IP (privacy)
+      function simpleHash(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+          const char = str.charCodeAt(i);
+          hash = ((hash << 5) - hash) + char;
+          hash = hash & hash;
+        }
+        return hash.toString(16);
+      }
+      
+      // Track link open to Supabase
+      async function trackLinkOpen(connectCode, campaignCode) {
+        try {
+          const response = await fetch(SUPABASE_URL + '/rest/v1/link_opens', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify({
+              connect_code: connectCode || null,
+              campaign_code: campaignCode || null,
+              referrer_url: document.referrer || null,
+              user_agent: navigator.userAgent || null,
+              ip_hash: simpleHash(navigator.userAgent + (new Date()).toDateString())
+            })
+          });
+          
+          if (!response.ok) {
+            console.warn('Failed to track link open:', response.status);
+          }
+        } catch (e) {
+          console.warn('Error tracking link open:', e);
+        }
       }
       
       // Detect device
@@ -344,8 +393,12 @@
       
       // Initialize
       const code = getReferralCode();
+      const campaignCode = getCampaignCode();
       const device = getDevice();
       const storeUrl = getStoreUrl();
+      
+      // Track this link open
+      trackLinkOpen(code, campaignCode);
       
       // Display referral code
       const codeElement = document.getElementById('referralCode');
@@ -359,6 +412,13 @@
       } else {
         codeElement.textContent = '—';
         document.querySelector('.code-hint').textContent = 'No code provided';
+      }
+      
+      // Store campaign code for attribution
+      if (campaignCode) {
+        try {
+          localStorage.setItem('refervo_campaign', campaignCode);
+        } catch (e) {}
       }
       
       // Set up download button
@@ -383,7 +443,7 @@
         setTimeout(function() {
           // Try to open deep link first (if app is installed)
           if (code) {
-            const deepLink = 'refervo://join?code=' + code;
+            const deepLink = 'refervo://join?code=' + code + (campaignCode ? '&campaign=' + campaignCode : '');
             
             // Create hidden iframe to try deep link
             const iframe = document.createElement('iframe');
