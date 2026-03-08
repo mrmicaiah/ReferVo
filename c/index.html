@@ -94,12 +94,19 @@
       align-items: center;
       justify-content: center;
       margin: 0 auto 20px;
+      overflow: hidden;
     }
     
     .profile-icon svg {
       width: 40px;
       height: 40px;
       fill: white;
+    }
+    
+    .profile-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     
     .business-name {
@@ -351,12 +358,20 @@
     
     function showBusiness(business) {
       const isPersonal = business.account_type === 'personal';
-      const iconSvg = isPersonal 
-        ? '<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>'
-        : '<svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>';
+      
+      // Check if they have a logo
+      let profileIconHtml;
+      if (business.logo) {
+        profileIconHtml = `<div class="profile-icon"><img src="${escapeHtml(business.logo)}" alt="${escapeHtml(business.name)}"></div>`;
+      } else {
+        const iconSvg = isPersonal 
+          ? '<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>'
+          : '<svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>';
+        profileIconHtml = `<div class="profile-icon">${iconSvg}</div>`;
+      }
       
       contentEl.innerHTML = `
-        <div class="profile-icon">${iconSvg}</div>
+        ${profileIconHtml}
         <h1 class="business-name">${escapeHtml(business.name)}</h1>
         ${business.industry_name ? `<p class="business-industry">${escapeHtml(business.industry_name)}</p>` : ''}
         
