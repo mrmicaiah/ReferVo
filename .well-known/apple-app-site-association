@@ -3,18 +3,18 @@
     "apps": [],
     "details": [
       {
-        "appID": "GT5KH2GTWZ.com.untitledpublishers.refervo",
-        "appIDs": ["GT5KH2GTWZ.com.untitledpublishers.refervo"],
-        "components": [
-          {
-            "/": "/join/*",
-            "comment": "Referral invite links"
-          }
+        "appID": "DQMC5KY5V9.com.untitledpublishers.refervo",
+        "paths": [
+          "/c/*",
+          "/connect/*",
+          "/join/*"
         ]
       }
     ]
   },
   "webcredentials": {
-    "apps": ["GT5KH2GTWZ.com.untitledpublishers.refervo"]
+    "apps": [
+      "DQMC5KY5V9.com.untitledpublishers.refervo"
+    ]
   }
 }
