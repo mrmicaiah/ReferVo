@@ -306,44 +306,39 @@
         return;
       }
       
-      // Try to open the app first
-      tryOpenApp();
+      // Try to open the app first (only on mobile)
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        tryOpenApp();
+      }
       
       // Fetch business info
       await fetchBusiness();
     }
     
     function tryOpenApp() {
-      // Try the deep link
       const deepLink = `refervo://connect/${code}`;
-      
-      // Create hidden iframe to try the deep link
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = deepLink;
-      document.body.appendChild(iframe);
-      
-      // Clean up iframe
-      setTimeout(() => {
-        document.body.removeChild(iframe);
-      }, 2000);
+      window.location.href = deepLink;
     }
     
     async function fetchBusiness() {
       try {
+        // Use RPC function instead of direct table query
         const response = await fetch(
-          `${SUPABASE_URL}/rest/v1/businesses?connect_code=eq.${code}&select=name,industry_name,account_type`,
+          `${SUPABASE_URL}/rest/v1/rpc/lookup_connect_code`,
           {
+            method: 'POST',
             headers: {
+              'Content-Type': 'application/json',
               'apikey': SUPABASE_ANON_KEY,
               'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-            }
+            },
+            body: JSON.stringify({ code: code })
           }
         );
         
         const data = await response.json();
         
-        if (data && data.length > 0) {
+        if (data && data.length > 0 && data[0].name) {
           showBusiness(data[0]);
         } else {
           showNotFound();
