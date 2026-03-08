@@ -276,14 +276,32 @@
     const SUPABASE_URL = 'https://cbddrhejxrynlhfahulz.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNiZGRyaGVqeHJ5bmxoZmFodWx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI1NzczMjksImV4cCI6MjA0ODE1MzMyOX0.yhl7rBNukkPVSHEVPsJDnRwWhUJ6GQy0RTALWfFpxgg';
     
-    // Get code from URL path (e.g., /c/ABC123)
-    const pathParts = window.location.pathname.split('/');
-    const code = pathParts[pathParts.length - 1]?.toUpperCase() || pathParts[pathParts.length - 2]?.toUpperCase();
+    // Get code from URL - check hash first, then path
+    let code = '';
+    
+    // Check hash (e.g., /c/#ABC123)
+    if (window.location.hash) {
+      code = window.location.hash.substring(1).toUpperCase();
+    }
+    
+    // Check path (e.g., /c/ABC123)
+    if (!code) {
+      const pathParts = window.location.pathname.split('/').filter(p => p && p !== 'c');
+      if (pathParts.length > 0) {
+        code = pathParts[pathParts.length - 1].toUpperCase();
+      }
+    }
+    
+    // Check query param (e.g., /c/?code=ABC123)
+    if (!code) {
+      const params = new URLSearchParams(window.location.search);
+      code = (params.get('code') || '').toUpperCase();
+    }
     
     const contentEl = document.getElementById('content');
     
     async function init() {
-      if (!code || code === 'C') {
+      if (!code) {
         showError('No connect code found');
         return;
       }
@@ -304,11 +322,6 @@
       iframe.style.display = 'none';
       iframe.src = deepLink;
       document.body.appendChild(iframe);
-      
-      // Also try window.location for some devices
-      setTimeout(() => {
-        window.location.href = deepLink;
-      }, 100);
       
       // Clean up iframe
       setTimeout(() => {
