@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connection Error - ReferVo</title>
+  <link rel="icon" type="image/png" href="images/icon.png">
+  <link rel="apple-touch-icon" href="images/icon.png">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .status-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background: linear-gradient(180deg, var(--gray-light) 0%, var(--white) 100%);
+    }
+    .status-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    }
+    .status-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(239, 68, 68, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2.5rem;
+    }
+    .status-card h1 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+    .status-card p {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+    .error-reason {
+      background: var(--gray-light);
+      border-radius: 12px;
+      padding: 1rem;
+      font-family: monospace;
+      font-size: 0.875rem;
+      color: var(--gray-dark);
+      margin-bottom: 1.5rem;
+      word-break: break-all;
+    }
+    .status-footer {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--gray-border);
+    }
+    .status-footer a {
+      color: var(--orange);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="status-page">
+    <div class="status-card">
+      <div class="status-icon">❌</div>
+      <h1>Connection Failed</h1>
+      <p>
+        Something went wrong while connecting your Stripe account to ReferVo.
+      </p>
+      <div class="error-reason" id="errorReason">Unknown error</div>
+      <p>
+        Please try again using the link provided by ReferVo, or contact support if the problem persists.
+      </p>
+      <div class="status-footer">
+        <p>Need help? <a href="mailto:support@refervo.com">support@refervo.com</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Get error reason from URL params
+    const params = new URLSearchParams(window.location.search);
+    const reason = params.get('reason');
+    if (reason) {
+      const reasonMap = {
+        'access_denied': 'You declined to connect your Stripe account.',
+        'invalid_state': 'The connection link has expired or is invalid. Please request a new link.',
+        'missing_params': 'Missing required information. Please use the original link.',
+        'database_error': 'A database error occurred. Please try again.',
+        'update_failed': 'Failed to save connection. Please try again.',
+        'no_account_id': 'Could not retrieve your Stripe account. Please try again.',
+        'server_error': 'A server error occurred. Please try again later.'
+      };
+      document.getElementById('errorReason').textContent = reasonMap[reason] || reason;
+    }
+  </script>
+</body>
+</html>
