@@ -1,0 +1,25 @@
+{# FAQ Section #}
+<section class="landing-faq" id="faq">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">FAQ</span>
+      <h2>{{ faqHeadline }}</h2>
+    </div>
+    
+    <div class="faq-list">
+      {% for item in faqData %}
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          {{ item.q }}
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>{{ item.a | safe }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

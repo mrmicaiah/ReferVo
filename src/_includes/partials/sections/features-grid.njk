@@ -1,0 +1,22 @@
+{# Features Grid Section #}
+<section class="landing-features" id="features">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Features</span>
+      <h2>{{ featuresHeadline }}</h2>
+      {% if featuresSubhead %}
+      <p>{{ featuresSubhead }}</p>
+      {% endif %}
+    </div>
+    
+    <div class="features-grid">
+      {% for feature in featuresData %}
+      <div class="feature-card">
+        <div class="feature-icon">{{ feature.icon }}</div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

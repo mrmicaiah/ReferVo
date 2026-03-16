@@ -1,0 +1,20 @@
+{# How It Works Section #}
+<section class="how-it-works" id="how-it-works">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">How It Works</span>
+      <h2>Three Simple Steps</h2>
+      <p>Start earning from referrals in minutes</p>
+    </div>
+    
+    <div class="steps">
+      {% for step in stepsData %}
+      <div class="step">
+        <div class="step-number">{{ step.number }}</div>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

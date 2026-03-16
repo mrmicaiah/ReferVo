@@ -1,0 +1,33 @@
+{# Testimonials Section #}
+<section class="landing-testimonials">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Testimonials</span>
+      <h2>What People Are Saying</h2>
+    </div>
+    
+    <div class="testimonials-grid">
+      {% for testimonial in testimonialsData %}
+      <div class="testimonial-card">
+        <div class="testimonial-content">
+          <svg class="testimonial-quote" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" opacity="0.1">
+            <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/>
+          </svg>
+          <p>"{{ testimonial.quote }}"</p>
+        </div>
+        <div class="testimonial-author">
+          {% if testimonial.avatar %}
+          <img src="{{ testimonial.avatar }}" alt="{{ testimonial.name }}" class="testimonial-avatar">
+          {% else %}
+          <div class="testimonial-avatar-placeholder">{{ testimonial.name | first | upper }}</div>
+          {% endif %}
+          <div class="testimonial-info">
+            <strong>{{ testimonial.name }}</strong>
+            <span>{{ testimonial.role }}</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -1,6 +1,57 @@
 ---
-layout: base.njk
+layout: base
 ---
 
-{# Landing page layout - no page-header, content is full-width sections #}
-{{ content | safe }}
+{# Landing Page Layout - Flexible sections controlled by front matter #}
+
+{# Hero Section #}
+{% if hero %}
+  {% set heroData = hero %}
+  {% include "partials/sections/hero-landing.njk" %}
+{% endif %}
+
+{# Stats Section (optional) #}
+{% if stats %}
+  {% set statsData = stats %}
+  {% include "partials/sections/stats-section.njk" %}
+{% endif %}
+
+{# Features Grid #}
+{% if features %}
+  {% set featuresData = features %}
+  {% set featuresHeadline = features_headline | default("Why Choose ReferVo?") %}
+  {% set featuresSubhead = features_subhead %}
+  {% include "partials/sections/features-grid.njk" %}
+{% endif %}
+
+{# How It Works #}
+{% if show_how_it_works %}
+  {% set stepsData = steps | default([
+    { number: 1, title: "Connect", description: "Build your network of trusted partners in your industry." },
+    { number: 2, title: "Refer", description: "Send leads you can't take to the right partner." },
+    { number: 3, title: "Earn", description: "Get paid when the deal closes. It's that simple." }
+  ]) %}
+  {% include "partials/sections/how-it-works.njk" %}
+{% endif %}
+
+{# Testimonials #}
+{% if testimonials %}
+  {% set testimonialsData = testimonials %}
+  {% include "partials/sections/testimonials.njk" %}
+{% endif %}
+
+{# FAQ Section #}
+{% if faq %}
+  {% set faqData = faq %}
+  {% set faqHeadline = faq_headline | default("Frequently Asked Questions") %}
+  {% include "partials/sections/faq-section.njk" %}
+{% endif %}
+
+{# CTA Section #}
+{% if show_cta != false %}
+  {% set ctaHeadline = cta_headline | default("Ready to Start Earning?") %}
+  {% set ctaSubhead = cta_subhead | default("Download ReferVo and turn your professional network into passive income.") %}
+  {% set ctaButtonText = cta_button_text | default("Download Free") %}
+  {% set ctaButtonUrl = cta_button_url | default(site.appStoreUrl) %}
+  {% include "partials/sections/cta-section.njk" %}
+{% endif %}

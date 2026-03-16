@@ -1,0 +1,13 @@
+{# Stats Section #}
+<section class="landing-stats">
+  <div class="container">
+    <div class="stats-grid">
+      {% for stat in statsData %}
+      <div class="stat-item">
+        <div class="stat-number">{{ stat.value }}</div>
+        <div class="stat-label">{{ stat.label }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
