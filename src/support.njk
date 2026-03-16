@@ -1,0 +1,145 @@
+---
+layout: page.njk
+title: Support
+subtitle: Get help with ReferVo. Find answers to common questions or contact our support team.
+description: Get help with ReferVo. Find answers to common questions about referral fees, payments, and connecting with businesses.
+---
+
+<section class="support-section">
+  <div class="container">
+    <div class="support-grid">
+      
+      {# Sidebar with contact cards #}
+      <div class="support-sidebar">
+        <div class="support-card">
+          <h3>📧 Email Support</h3>
+          <p>Get help from our team. We typically respond within 24 hours.</p>
+          <a href="mailto:{{ site.email.support }}">{{ site.email.support }}</a>
+        </div>
+        
+        <div class="support-card">
+          <h3>📱 App Issues?</h3>
+          <p>Having trouble with the app? Make sure you have the latest version.</p>
+          <a href="{{ site.appStoreUrl }}" target="_blank" rel="noopener">Update on App Store →</a>
+        </div>
+        
+        <div class="support-card">
+          <h3>💬 General Questions</h3>
+          <p>For partnerships, press, or other inquiries.</p>
+          <a href="mailto:{{ site.email.hello }}">{{ site.email.hello }}</a>
+        </div>
+      </div>
+      
+      {# FAQ Section #}
+      <div class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        
+        <div class="faq-list">
+          
+          <div class="faq-item">
+            <button class="faq-question">
+              How do I get started with ReferVo?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Getting started is easy! Download ReferVo from the App Store, create an account with your email, and set up your business profile. Once your profile is complete, you can start connecting with other businesses in your network and sending referrals.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <button class="faq-question">
+              How do referral fees work?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>You negotiate referral fees directly with each business you connect with. When you send a referral to a partner and they accept it, your agreed-upon fee is automatically charged and paid to you. You set your own rates — ReferVo just handles the payment processing.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <button class="faq-question">
+              How do I get paid?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Payments are processed through Stripe. You'll set up a Stripe account when you join ReferVo. When you earn a referral fee, the money goes into your ReferVo balance. You can then cash out to your bank account instantly or wait for automatic weekly payouts.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <button class="faq-question">
+              What if a referral is rejected?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>If your partner declines a referral, no fee is charged. You can then send the referral to a different partner in your network who might be a better fit. Referrals have a 72-hour expiration window, giving partners time to review before the lead expires.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <button class="faq-question">
+              How do I connect with other businesses?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>ReferVo is built on trust, so you connect with businesses you already know. You can invite partners by sharing your unique invite link, or search for businesses already on ReferVo. When you send a connection request, you'll set your referral fee terms. Once they accept, you're connected and can start sending referrals.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <button class="faq-question">
+              Is my information secure?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Yes! We take security seriously. All data is encrypted in transit and at rest. Payment processing is handled by Stripe, a PCI-compliant payment processor. We never store your full payment card information. See our <a href="/privacy/">Privacy Policy</a> for complete details.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <button class="faq-question">
+              Is ReferVo free to use?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>Yes, ReferVo is free to download and use. We only charge a small platform fee when a referral fee is successfully paid. There are no monthly subscriptions, no setup fees, and no charges for connecting with partners or sending referrals.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <button class="faq-question">
+              What types of businesses can use ReferVo?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                <p>ReferVo works for any business that gives or receives referrals. Contractors, realtors, consultants, agencies, freelancers, and service providers of all kinds use ReferVo to formalize their referral relationships and actually get paid for the word-of-mouth marketing they're already doing.</p>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+{# CTA #}
+{% set ctaTitle = "Still have questions?" %}
+{% set ctaText = "Download ReferVo and give it a try. Our support team is always here to help you get the most out of the platform." %}
+{% include "partials/cta-box.njk" %}
