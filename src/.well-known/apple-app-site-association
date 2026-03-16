@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": ["KXPB32L4V2.com.untitledpublishers.refervo"],
+        "paths": ["/c/*", "/join/*", "/connect/*"]
+      }
+    ]
+  }
+}
