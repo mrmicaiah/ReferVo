@@ -4,6 +4,12 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({"src/js": "js"});
   eleventyConfig.addPassthroughCopy({"src/images": "images"});
   eleventyConfig.addPassthroughCopy({"src/_redirects": "_redirects"});
+  
+  // Passthrough .well-known for deep linking (Apple/Android app association)
+  eleventyConfig.addPassthroughCopy({".well-known": ".well-known"});
+  
+  // Passthrough CNAME for custom domain
+  eleventyConfig.addPassthroughCopy("CNAME");
 
   // Watch targets
   eleventyConfig.addWatchTarget("src/css/");
