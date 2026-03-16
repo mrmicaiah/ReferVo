@@ -1,5 +1,19 @@
-# Cloudflare Pages redirects
+# ReferVo Redirects
 # Format: /old-path /new-path [status]
 
-# Redirect www to non-www (handled by Cloudflare, but backup here)
+# App Store shortcuts
+/app https://apps.apple.com/app/id6759116716 302
+/download https://apps.apple.com/app/id6759116716 302
+/ios https://apps.apple.com/app/id6759116716 302
+/appstore https://apps.apple.com/app/id6759116716 302
+/get https://apps.apple.com/app/id6759116716 302
+
+# Future Android redirect (placeholder)
+# /android https://play.google.com/store/apps/details?id=com.refervo 302
+
+# Social redirects (when ready)
+# /twitter https://twitter.com/refervo 302
+# /linkedin https://linkedin.com/company/refervo 302
+
+# Redirect www to non-www (backup - Cloudflare handles this)
 # https://www.refervo.com/* https://refervo.com/:splat 301

@@ -1,0 +1,11 @@
+# ReferVo robots.txt
+# https://refervo.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://refervo.com/sitemap.xml
+
+# Block certain paths
+Disallow: /go/

@@ -1,0 +1,112 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {# Homepage #}
+  <url>
+    <loc>{{ site.url }}/</loc>
+    <lastmod>{{ "now" | isoDate }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  {# Static Pages #}
+  <url>
+    <loc>{{ site.url }}/support/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>{{ site.url }}/contact/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>{{ site.url }}/privacy/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>{{ site.url }}/terms/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+  {# Blog #}
+  <url>
+    <loc>{{ site.url }}/blog/</loc>
+    <lastmod>{{ "now" | isoDate }}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  {# Blog Articles #}
+  {% for article in collections.articles %}
+  <url>
+    <loc>{{ site.url }}{{ article.url }}</loc>
+    <lastmod>{{ article.data.date | isoDate }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  {% endfor %}
+  
+  {# Blog Categories #}
+  <url>
+    <loc>{{ site.url }}/blog/category/contractors/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>{{ site.url }}/blog/category/realtors/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>{{ site.url }}/blog/category/agencies/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>{{ site.url }}/blog/category/tips/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>{{ site.url }}/blog/category/news/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  {# Industries #}
+  <url>
+    <loc>{{ site.url }}/industries/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  {% for industry in collections.industries %}
+  <url>
+    <loc>{{ site.url }}{{ industry.url }}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  {% endfor %}
+  
+  {# Use Cases #}
+  <url>
+    <loc>{{ site.url }}/use-cases/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>{{ site.url }}/use-cases/send-referrals/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>{{ site.url }}/use-cases/receive-referrals/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>

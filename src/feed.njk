@@ -1,0 +1,34 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{{ site.name }} Blog</title>
+  <subtitle>{{ site.description }}</subtitle>
+  <link href="{{ site.url }}/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="{{ site.url }}/blog/" rel="alternate" type="text/html"/>
+  <updated>{{ "now" | isoDate }}T00:00:00Z</updated>
+  <id>{{ site.url }}/blog/</id>
+  <author>
+    <name>ReferVo Team</name>
+    <email>{{ site.email.hello }}</email>
+  </author>
+  {% for article in collections.articles | slice(0, 20) %}
+  <entry>
+    <title>{{ article.data.title | escape }}</title>
+    <link href="{{ site.url }}{{ article.url }}" rel="alternate" type="text/html" title="{{ article.data.title | escape }}"/>
+    <published>{{ article.data.date | isoDate }}T00:00:00Z</published>
+    <updated>{{ article.data.date | isoDate }}T00:00:00Z</updated>
+    <id>{{ site.url }}{{ article.url }}</id>
+    <author>
+      <name>{{ article.data.author | default("ReferVo Team") }}</name>
+    </author>
+    <summary type="html">{{ article.data.excerpt | default(article.data.meta_description) | escape }}</summary>
+    <content type="html">{{ article.templateContent | escape }}</content>
+    {% if article.data.category %}
+    <category term="{{ article.data.category }}"/>
+    {% endif %}
+  </entry>
+  {% endfor %}
+</feed>
