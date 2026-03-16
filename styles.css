@@ -5,7 +5,7 @@
   --orange: #f97316;
   --orange-light: #fb923c;
   --orange-dark: #ea580c;
-  --black: #1a1a1a;
+  --black: #171717;
   --white: #ffffff;
   --gray-text: #6b7280;
   --gray-light: #f3f4f6;
@@ -76,7 +76,7 @@ section {
   section { padding: 7rem 0; }
 }
 
-/* Logo - No space between Refer and Vo */
+/* Logo - Text only, matches app styling */
 .logo {
   display: flex;
   align-items: center;
@@ -84,13 +84,6 @@ section {
   font-size: 1.75rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-}
-
-.logo-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  margin-right: 0.5rem;
 }
 
 .logo-refer { color: var(--orange); }
@@ -442,23 +435,13 @@ section {
 }
 
 .float-card-2 {
-  top: 40%;
+  top: 50%;
   right: 5%;
   animation-delay: -2s;
 }
 
 .float-card-2 .float-card-icon {
   background: rgba(34, 197, 94, 0.1);
-}
-
-.float-card-3 {
-  bottom: 15%;
-  left: 10%;
-  animation-delay: -4s;
-}
-
-.float-card-3 .float-card-icon {
-  background: rgba(59, 130, 246, 0.1);
 }
 
 @keyframes float {
