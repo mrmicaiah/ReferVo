@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title | default(site.name + " - " + site.tagline) }}</title>
-  <meta name="description" content="{{ description | default(site.description) }}">
+  <meta name="description" content="{{ meta_description | default(description) | default(site.description) }}">
   <meta name="keywords" content="{{ keywords | default('business referral app, referral fee, finder\'s fee, contractor referrals, referral marketing, word of mouth marketing, get paid for referrals, referral payments') }}">
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
   
   {# Open Graph #}
   <meta property="og:title" content="{{ title | default(site.name) }}">
-  <meta property="og:description" content="{{ description | default(site.description) }}">
+  <meta property="og:description" content="{{ meta_description | default(description) | default(site.description) }}">
   <meta property="og:type" content="{% if layout == 'article' %}article{% else %}website{% endif %}">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta property="og:image" content="{{ ogImage | default(featured_image) | default(site.cloudinary.base + '/' + site.cloudinary.iconMaster) }}">
@@ -23,7 +23,7 @@
   {# Twitter Card #}
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ title | default(site.name) }}">
-  <meta name="twitter:description" content="{{ description | default(site.description) }}">
+  <meta name="twitter:description" content="{{ meta_description | default(description) | default(site.description) }}">
   <meta name="twitter:image" content="{{ ogImage | default(featured_image) | default(site.cloudinary.base + '/' + site.cloudinary.iconMaster) }}">
   
   {# Favicon #}
@@ -81,6 +81,7 @@
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/utilities.css">
   <link rel="stylesheet" href="/css/blog.css">
+  <link rel="stylesheet" href="/css/landing.css">
   {% if extraCss %}
   <link rel="stylesheet" href="/css/{{ extraCss }}">
   {% endif %}
