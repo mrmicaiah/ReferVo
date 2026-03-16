@@ -1,0 +1,69 @@
+---
+permalink: /stripe-refresh/index.html
+layout: false
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stripe Session Expired - ReferVo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    .container {
+      text-align: center;
+      padding: 40px;
+    }
+    .logo {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 24px;
+    }
+    .logo span:first-child { color: #f97316; }
+    .logo span:last-child { color: white; }
+    .icon {
+      font-size: 48px;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    p {
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 32px;
+      max-width: 300px;
+    }
+    .btn {
+      display: inline-block;
+      background: #f97316;
+      color: white;
+      padding: 14px 32px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .btn:hover { background: #ea580c; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo"><span>Refer</span><span>Vo</span></div>
+    <div class="icon">⏱️</div>
+    <h1>Session Expired</h1>
+    <p>Your setup session timed out. Open the app and try again.</p>
+    <a href="refervo://wallet" class="btn">Open ReferVo</a>
+  </div>
+</body>
+</html>
