@@ -8,6 +8,7 @@
     "hello": "hello@refervo.com",
     "support": "support@refervo.com"
   },
+  "ga4Id": "",
   "colors": {
     "primary": "#f97316",
     "primaryDark": "#ea580c",
