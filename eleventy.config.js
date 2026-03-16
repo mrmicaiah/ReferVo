@@ -4,6 +4,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({"src/js": "js"});
   eleventyConfig.addPassthroughCopy({"src/images": "images"});
   eleventyConfig.addPassthroughCopy({"src/_redirects": "_redirects"});
+  eleventyConfig.addPassthroughCopy({"src/robots.txt": "robots.txt"});
   
   // Passthrough .well-known for deep linking (Apple/Android app association)
   // Check both locations - root level takes precedence
@@ -33,6 +34,10 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addFilter("isoDate", function(date) {
     if (!date) return "";
+    // Handle "now" keyword for sitemap
+    if (date === "now") {
+      return new Date().toISOString().slice(0, 10);
+    }
     return new Date(date).toISOString().slice(0, 10);
   });
 
@@ -41,6 +46,23 @@ module.exports = function(eleventyConfig) {
     if (!str) return "";
     if (str.length <= length) return str;
     return str.substring(0, length).trim() + "...";
+  });
+
+  // Escape filter for RSS/XML
+  eleventyConfig.addFilter("escape", function(str) {
+    if (!str) return "";
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  });
+
+  // Strip tags filter for excerpts
+  eleventyConfig.addFilter("striptags", function(str) {
+    if (!str) return "";
+    return str.replace(/<[^>]*>/g, "");
   });
 
   // Blog collection
