@@ -1,0 +1,134 @@
+/* Email Capture Component Styles */
+
+.email-capture {
+  background: var(--gray-light);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 500px;
+}
+
+.email-capture--inline {
+  background: transparent;
+  padding: 0;
+}
+
+.email-capture--dark {
+  background: var(--black);
+}
+
+.email-capture--dark h3,
+.email-capture--dark p {
+  color: var(--white);
+}
+
+.email-capture--dark .email-capture-privacy {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.email-capture-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.email-capture-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(249, 115, 22, 0.1);
+  color: var(--orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.email-capture-text h3 {
+  font-size: 1.125rem;
+  margin-bottom: 0.25rem;
+  color: var(--black);
+}
+
+.email-capture-text p {
+  font-size: 0.9rem;
+  color: var(--gray-text);
+  margin: 0;
+}
+
+.email-capture-form {
+  margin-bottom: 0.75rem;
+}
+
+.email-capture-input-group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.email-capture-input-group input {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--gray-border);
+  border-radius: 12px;
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.2s var(--ease-out);
+}
+
+.email-capture-input-group input:focus {
+  border-color: var(--orange);
+}
+
+.email-capture-input-group button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.email-capture-privacy {
+  font-size: 0.8rem;
+  color: var(--gray-text);
+  margin: 0;
+}
+
+.email-capture-success {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(34, 197, 94, 0.1);
+  border-radius: 12px;
+  color: #16a34a;
+}
+
+.email-capture-success svg {
+  flex-shrink: 0;
+}
+
+.email-capture-success p {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Spinner animation */
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .email-capture-input-group {
+    flex-direction: column;
+  }
+  
+  .email-capture-input-group button {
+    width: 100%;
+  }
+}
