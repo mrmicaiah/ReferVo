@@ -1,0 +1,24 @@
+---
+layout: base.njk
+---
+
+<article class="article">
+  <header class="article-header">
+    <div class="container">
+      <span class="article-category">{{ category | default("Article") }}</span>
+      <h1>{{ title }}</h1>
+      <div class="article-meta">
+        <time datetime="{{ date | isoDate }}">{{ date | dateFormat("MMMM D, YYYY") }}</time>
+        {% if readTime %}<span class="read-time">{{ readTime }} min read</span>{% endif %}
+      </div>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div class="article-content">
+      {{ content | safe }}
+    </div>
+    
+    {% include "partials/cta-box.njk" %}
+  </div>
+</article>

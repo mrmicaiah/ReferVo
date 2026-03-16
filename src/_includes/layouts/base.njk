@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title | default(site.name + " - " + site.tagline) }}</title>
+  <meta name="description" content="{{ description | default(site.description) }}">
+  <meta name="keywords" content="{{ keywords | default('business referral app, referral fee, finder\'s fee, contractor referrals, referral marketing, word of mouth marketing, get paid for referrals, referral payments') }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  
+  {# Open Graph #}
+  <meta property="og:title" content="{{ title | default(site.name) }}">
+  <meta property="og:description" content="{{ description | default(site.description) }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ ogImage | default(site.cloudinary.base + '/' + site.cloudinary.iconMaster) }}">
+  <meta property="og:site_name" content="{{ site.name }}">
+  
+  {# Twitter Card #}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ title | default(site.name) }}">
+  <meta name="twitter:description" content="{{ description | default(site.description) }}">
+  <meta name="twitter:image" content="{{ ogImage | default(site.cloudinary.base + '/' + site.cloudinary.iconMaster) }}">
+  
+  {# Favicon #}
+  <link rel="icon" type="image/png" href="{{ site.cloudinary.base }}/{{ site.cloudinary.icon512 }}">
+  <link rel="apple-touch-icon" href="{{ site.cloudinary.base }}/{{ site.cloudinary.icon512 }}">
+  
+  {# Schema.org Markup #}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "{{ site.name }}",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "iOS",
+    "description": "{{ site.description }}",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+  
+  {# Fonts #}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  
+  {# Styles #}
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/utilities.css">
+  {% if extraCss %}
+  <link rel="stylesheet" href="/css/{{ extraCss }}">
+  {% endif %}
+  
+  {% block head %}{% endblock %}
+</head>
+<body>
+  
+  {% include "partials/header.njk" %}
+  
+  <main>
+    {% block content %}
+    {{ content | safe }}
+    {% endblock %}
+  </main>
+  
+  {% include "partials/footer.njk" %}
+  
+  <script src="/js/main.js"></script>
+  {% block scripts %}{% endblock %}
+  
+</body>
+</html>

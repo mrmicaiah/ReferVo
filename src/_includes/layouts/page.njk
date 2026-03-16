@@ -1,0 +1,23 @@
+---
+layout: base.njk
+---
+
+<section class="page-header">
+  <div class="container">
+    <h1>{{ title }}</h1>
+    {% if subtitle %}
+    <p>{{ subtitle }}</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="container">
+    <div class="content-wrapper">
+      {% if lastUpdated %}
+      <p class="last-updated">Last updated: {{ lastUpdated | dateFormat("MMMM D, YYYY") }}</p>
+      {% endif %}
+      {{ content | safe }}
+    </div>
+  </div>
+</section>
