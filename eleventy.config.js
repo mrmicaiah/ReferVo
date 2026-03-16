@@ -36,6 +36,13 @@ module.exports = function(eleventyConfig) {
     return new Date(date).toISOString().slice(0, 10);
   });
 
+  // Truncate filter for article excerpts
+  eleventyConfig.addFilter("truncate", function(str, length) {
+    if (!str) return "";
+    if (str.length <= length) return str;
+    return str.substring(0, length).trim() + "...";
+  });
+
   // Blog collection
   eleventyConfig.addCollection("articles", function(collectionApi) {
     return collectionApi.getFilteredByTag("article").sort((a, b) => {
