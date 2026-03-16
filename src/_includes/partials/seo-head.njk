@@ -1,0 +1,29 @@
+{# SEO Meta Tags Partial #}
+{# This is included in base.njk - use front matter to customize #}
+
+{# Additional schema markup for specific page types #}
+{% if schema %}
+<script type="application/ld+json">
+{{ schema | dump | safe }}
+</script>
+{% endif %}
+
+{# Breadcrumb schema #}
+{% if breadcrumbs %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {% for crumb in breadcrumbs %}
+    {
+      "@type": "ListItem",
+      "position": {{ loop.index }},
+      "name": "{{ crumb.name }}",
+      "item": "{{ site.url }}{{ crumb.url }}"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}

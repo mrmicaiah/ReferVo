@@ -1,0 +1,17 @@
+{# Reusable CTA Box Component #}
+<section class="cta" id="download">
+  <div class="container">
+    <div class="cta-box animate-on-scroll">
+      <div class="cta-content">
+        <h2>{{ ctaTitle | default("Free to Join. You Set Your Rates.") }}</h2>
+        <p>{{ ctaText | default("Download the ReferVo <strong>business referral app</strong> and start earning from the referrals you're already making. Negotiate <strong>referral fees</strong> directly with your network — we just handle the payments.") | safe }}</p>
+        <div class="store-badges">
+          <a href="{{ site.appStoreUrl }}" class="store-badge-link" target="_blank" rel="noopener">
+            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" class="store-badge">
+          </a>
+        </div>
+        <p class="android-coming-soon">Android coming soon</p>
+      </div>
+    </div>
+  </div>
+</section>

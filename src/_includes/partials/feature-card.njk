@@ -1,0 +1,7 @@
+{# Feature Card Component #}
+{# Usage: {% include "partials/feature-card.njk" with icon: "🤝", title: "Feature Title", description: "Feature description" %} #}
+<div class="feature-card animate-on-scroll">
+  <div class="feature-icon">{{ icon }}</div>
+  <h3>{{ title }}</h3>
+  <p>{{ description | safe }}</p>
+</div>

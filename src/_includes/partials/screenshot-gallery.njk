@@ -1,0 +1,13 @@
+{# Screenshot Gallery Component #}
+<div class="screenshots-carousel">
+  <div class="screenshots-track">
+    {% for screenshot in site.screenshots %}
+    <div class="screenshot-item">
+      <div class="screenshot-phone">
+        <img src="{{ site.cloudinary.base }}/v1773425248/{{ screenshot.id }}.jpg" alt="ReferVo {{ screenshot.caption }}" loading="lazy">
+      </div>
+      <p class="screenshot-caption">{{ screenshot.caption }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
