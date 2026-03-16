@@ -1,5 +1,0 @@
-include:
-  - .well-known
-
-plugins:
-  - jekyll-include-cache
