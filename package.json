@@ -1,0 +1,17 @@
+{
+  "name": "refervo-website",
+  "version": "1.0.0",
+  "description": "ReferVo marketing website - Eleventy static site",
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve",
+    "watch": "eleventy --watch"
+  },
+  "keywords": ["refervo", "referral", "business"],
+  "author": "Untitled Publishers",
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

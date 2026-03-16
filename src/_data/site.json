@@ -1,0 +1,34 @@
+{
+  "name": "ReferVo",
+  "tagline": "Connect. Refer. Earn.",
+  "description": "The business referral app that helps you get paid for the referrals you're already making.",
+  "url": "https://refervo.com",
+  "appStoreUrl": "https://apps.apple.com/app/id6759116716",
+  "email": {
+    "hello": "hello@refervo.com",
+    "support": "support@refervo.com"
+  },
+  "colors": {
+    "primary": "#f97316",
+    "primaryDark": "#ea580c",
+    "primaryLight": "#fb923c",
+    "black": "#171717",
+    "grayText": "#6b7280",
+    "grayLight": "#f3f4f6",
+    "grayBorder": "#e5e7eb"
+  },
+  "cloudinary": {
+    "base": "https://res.cloudinary.com/dxzw1zwez/image/upload",
+    "icon512": "v1771393717/RV_Icon_Transparent_512_yooqnl.png",
+    "icon1024": "v1771393717/RV_Icon_Transparent_1024_r8cbpj.png",
+    "iconMaster": "v1771393716/RV_Icon_Master_2048_gzrlct.png"
+  },
+  "screenshots": [
+    {"id": "IMG_1186_st4u68", "caption": "Home Dashboard"},
+    {"id": "IMG_1180_t7bdvz", "caption": "Your Network"},
+    {"id": "IMG_1171_pwii0m", "caption": "Send a Referral"},
+    {"id": "IMG_1170_lsyfrz", "caption": "Manage Leads"},
+    {"id": "IMG_1174_ilwkx3", "caption": "Track Earnings"},
+    {"id": "IMG_1176_npe7k9", "caption": "Business Profile"}
+  ]
+}

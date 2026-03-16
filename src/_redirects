@@ -1,0 +1,5 @@
+# Cloudflare Pages redirects
+# Format: /old-path /new-path [status]
+
+# Redirect www to non-www (handled by Cloudflare, but backup here)
+# https://www.refervo.com/* https://refervo.com/:splat 301
