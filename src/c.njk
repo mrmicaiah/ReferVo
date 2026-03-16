@@ -16,7 +16,6 @@ layout: false
   <meta property="og:image" content="https://res.cloudinary.com/dxzw1zwez/image/upload/v1771393717/RV_Icon_Transparent_512_yooqnl.png">
   
   <link rel="icon" type="image/png" href="https://res.cloudinary.com/dxzw1zwez/image/upload/v1771393717/RV_Icon_Transparent_512_yooqnl.png">
-  <link rel="apple-touch-icon" href="https://res.cloudinary.com/dxzw1zwez/image/upload/v1771393717/RV_Icon_Transparent_512_yooqnl.png">
   
   <style>
     :root {
@@ -28,13 +27,7 @@ layout: false
       --gray-600: #4b5563;
       --gray-900: #111827;
     }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--dark);
@@ -42,7 +35,6 @@ layout: false
       display: flex;
       flex-direction: column;
     }
-    
     .container {
       flex: 1;
       display: flex;
@@ -52,28 +44,16 @@ layout: false
       padding: 24px;
       text-align: center;
     }
-    
     .logo {
       display: flex;
       align-items: center;
       gap: 8px;
       margin-bottom: 32px;
     }
-    
-    .logo-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-    }
-    
-    .logo-text {
-      font-size: 28px;
-      font-weight: 800;
-    }
-    
+    .logo-icon { width: 48px; height: 48px; border-radius: 12px; }
+    .logo-text { font-size: 28px; font-weight: 800; }
     .logo-refer { color: var(--primary); }
     .logo-vo { color: white; }
-    
     .card {
       background: white;
       border-radius: 24px;
@@ -81,7 +61,6 @@ layout: false
       max-width: 400px;
       width: 100%;
     }
-    
     .profile-icon {
       width: 80px;
       height: 80px;
@@ -93,346 +72,81 @@ layout: false
       margin: 0 auto 20px;
       overflow: hidden;
     }
-    
-    .profile-icon svg {
-      width: 40px;
-      height: 40px;
-      fill: white;
-    }
-    
-    .profile-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .business-name {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--gray-900);
-      margin-bottom: 4px;
-    }
-    
-    .business-industry {
-      font-size: 14px;
-      color: var(--gray-600);
-      margin-bottom: 24px;
-    }
-    
-    .loading {
-      color: var(--gray-600);
-      font-size: 16px;
-    }
-    
-    .error-msg {
-      color: #dc2626;
-      font-size: 14px;
-      margin-bottom: 16px;
-    }
-    
-    .code-box {
-      background: var(--gray-100);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 24px;
-    }
-    
-    .code-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--gray-400);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
-    }
-    
-    .code-value {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--gray-900);
-      letter-spacing: 4px;
-    }
-    
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 16px 24px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      transition: all 0.2s;
-    }
-    
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .btn-primary:hover {
-      background: var(--primary-dark);
-    }
-    
-    .btn svg {
-      width: 20px;
-      height: 20px;
-      fill: currentColor;
-    }
-    
-    .store-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 16px;
-    }
-    
-    .store-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 14px 20px;
-      background: var(--gray-900);
-      color: white;
-      border-radius: 12px;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-    
-    .store-btn:hover {
-      background: #374151;
-    }
-    
-    .store-btn svg {
-      width: 24px;
-      height: 24px;
-      fill: currentColor;
-    }
-    
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin: 20px 0;
-      color: var(--gray-400);
-      font-size: 13px;
-    }
-    
-    .divider::before,
-    .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--gray-100);
-    }
-    
-    .hint {
-      font-size: 13px;
-      color: var(--gray-400);
-      margin-top: 16px;
-      line-height: 1.5;
-    }
-    
-    .footer {
-      padding: 24px;
-      text-align: center;
-    }
-    
-    .footer a {
-      color: var(--gray-400);
-      text-decoration: none;
-      font-size: 14px;
-    }
-    
-    .footer a:hover {
-      color: white;
-    }
+    .profile-icon svg { width: 40px; height: 40px; fill: white; }
+    .profile-icon img { width: 100%; height: 100%; object-fit: cover; }
+    .business-name { font-size: 24px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+    .business-industry { font-size: 14px; color: var(--gray-600); margin-bottom: 24px; }
+    .loading { color: var(--gray-600); font-size: 16px; }
+    .error-msg { color: #dc2626; font-size: 14px; margin-bottom: 16px; }
+    .code-box { background: var(--gray-100); border-radius: 12px; padding: 16px; margin-bottom: 24px; }
+    .code-label { font-size: 11px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .code-value { font-size: 28px; font-weight: 800; color: var(--gray-900); letter-spacing: 4px; }
+    .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 16px 24px; border-radius: 12px; font-size: 16px; font-weight: 700; text-decoration: none; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn svg { width: 20px; height: 20px; fill: currentColor; }
+    .store-buttons { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+    .store-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 20px; background: var(--gray-900); color: white; border-radius: 12px; text-decoration: none; font-size: 14px; font-weight: 600; transition: all 0.2s; }
+    .store-btn:hover { background: #374151; }
+    .store-btn svg { width: 24px; height: 24px; fill: currentColor; }
+    .divider { display: flex; align-items: center; gap: 16px; margin: 20px 0; color: var(--gray-400); font-size: 13px; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--gray-100); }
+    .hint { font-size: 13px; color: var(--gray-400); margin-top: 16px; line-height: 1.5; }
+    .footer { padding: 24px; text-align: center; }
+    .footer a { color: var(--gray-400); text-decoration: none; font-size: 14px; }
+    .footer a:hover { color: white; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="logo">
       <img src="https://res.cloudinary.com/dxzw1zwez/image/upload/v1771393717/RV_Icon_Transparent_512_yooqnl.png" alt="ReferVo" class="logo-icon">
-      <span class="logo-text">
-        <span class="logo-refer">Refer</span><span class="logo-vo">Vo</span>
-      </span>
+      <span class="logo-text"><span class="logo-refer">Refer</span><span class="logo-vo">Vo</span></span>
     </div>
-    
     <div class="card">
-      <div id="content">
-        <p class="loading">Loading...</p>
-      </div>
+      <div id="content"><p class="loading">Loading...</p></div>
     </div>
   </div>
-  
-  <div class="footer">
-    <a href="/">Learn more about ReferVo</a>
-  </div>
-
+  <div class="footer"><a href="/">Learn more about ReferVo</a></div>
   <script>
     const SUPABASE_URL = 'https://cbddrhejxrynlhfahulz.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNiZGRyaGVqeHJ5bmxoZmFodWx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgwMTEyMTgsImV4cCI6MjA1MzU4NzIxOH0.UJukTJwM3A6Foa2dJx8xPJl6E5dLWMHiLWIYizcPkwI';
-    
     let code = '';
-    
-    if (window.location.hash) {
-      code = window.location.hash.substring(1).toUpperCase();
-    }
-    
+    if (window.location.hash) code = window.location.hash.substring(1).toUpperCase();
     if (!code) {
       const pathParts = window.location.pathname.split('/').filter(p => p && p !== 'c');
-      if (pathParts.length > 0) {
-        code = pathParts[pathParts.length - 1].toUpperCase();
-      }
+      if (pathParts.length > 0) code = pathParts[pathParts.length - 1].toUpperCase();
     }
-    
     if (!code) {
       const params = new URLSearchParams(window.location.search);
       code = (params.get('code') || '').toUpperCase();
     }
-    
     const contentEl = document.getElementById('content');
-    
     async function init() {
-      if (!code) {
-        showError('No connect code found');
-        return;
-      }
-      
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        tryOpenApp();
-      }
-      
+      if (!code) { showError('No connect code found'); return; }
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) tryOpenApp();
       await fetchBusiness();
     }
-    
-    function tryOpenApp() {
-      const deepLink = `refervo://connect/${code}`;
-      window.location.href = deepLink;
-    }
-    
+    function tryOpenApp() { window.location.href = 'refervo://connect/' + code; }
     async function fetchBusiness() {
       try {
-        const response = await fetch(
-          `${SUPABASE_URL}/rest/v1/rpc/lookup_connect_code`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'apikey': SUPABASE_ANON_KEY,
-              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-            },
-            body: JSON.stringify({ code: code })
-          }
-        );
-        
+        const response = await fetch(SUPABASE_URL + '/rest/v1/rpc/lookup_connect_code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY },
+          body: JSON.stringify({ code: code })
+        });
         const data = await response.json();
-        
-        if (data && data.length > 0 && data[0].name) {
-          showBusiness(data[0]);
-        } else {
-          showNotFound();
-        }
-      } catch (err) {
-        console.error('Fetch error:', err);
-        showFallback();
-      }
+        if (data && data.length > 0 && data[0].name) showBusiness(data[0]);
+        else showNotFound();
+      } catch (err) { console.error(err); showFallback(); }
     }
-    
-    function showBusiness(business) {
-      const isPersonal = business.account_type === 'personal';
-      
-      let profileIconHtml;
-      if (business.logo) {
-        profileIconHtml = `<div class="profile-icon"><img src="${escapeHtml(business.logo)}" alt="${escapeHtml(business.name)}"></div>`;
-      } else {
-        const iconSvg = isPersonal 
-          ? '<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>'
-          : '<svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>';
-        profileIconHtml = `<div class="profile-icon">${iconSvg}</div>`;
-      }
-      
-      contentEl.innerHTML = `
-        ${profileIconHtml}
-        <h1 class="business-name">${escapeHtml(business.name)}</h1>
-        ${business.industry_name ? `<p class="business-industry">${escapeHtml(business.industry_name)}</p>` : ''}
-        
-        <a href="refervo://connect/${code}" class="btn btn-primary">
-          <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-          Open in ReferVo
-        </a>
-        
-        <div class="divider">or get the app</div>
-        
-        <div class="store-buttons">
-          <a href="https://apps.apple.com/app/refervo/id6759116716" class="store-btn">
-            <svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-            Download for iOS
-          </a>
-        </div>
-        
-        <div class="code-box" style="margin-top: 24px;">
-          <div class="code-label">Your Connect Code</div>
-          <div class="code-value">${code}</div>
-        </div>
-        
-        <p class="hint">After installing, open the app and enter this code to connect with ${escapeHtml(business.name)}.</p>
-      `;
+    function showBusiness(b) {
+      let icon = b.logo ? '<div class="profile-icon"><img src="' + b.logo + '" alt=""></div>' : '<div class="profile-icon"><svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg></div>';
+      contentEl.innerHTML = icon + '<h1 class="business-name">' + b.name + '</h1>' + (b.industry_name ? '<p class="business-industry">' + b.industry_name + '</p>' : '') + '<a href="refervo://connect/' + code + '" class="btn btn-primary"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Open in ReferVo</a><div class="divider">or get the app</div><div class="store-buttons"><a href="https://apps.apple.com/app/refervo/id6759116716" class="store-btn"><svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>Download for iOS</a></div><div class="code-box" style="margin-top:24px"><div class="code-label">Your Connect Code</div><div class="code-value">' + code + '</div></div><p class="hint">After installing, enter this code to connect with ' + b.name + '.</p>';
     }
-    
-    function showNotFound() {
-      contentEl.innerHTML = `
-        <p class="error-msg">This connect code wasn't found.</p>
-        <p style="color: var(--gray-600); margin-bottom: 24px;">The code may be expired or incorrect.</p>
-        <a href="/" class="btn btn-primary">Go to ReferVo</a>
-      `;
-    }
-    
-    function showFallback() {
-      contentEl.innerHTML = `
-        <a href="refervo://connect/${code}" class="btn btn-primary">
-          <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-          Open in ReferVo
-        </a>
-        
-        <div class="divider">or get the app</div>
-        
-        <div class="store-buttons">
-          <a href="https://apps.apple.com/app/refervo/id6759116716" class="store-btn">
-            <svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-            Download for iOS
-          </a>
-        </div>
-        
-        <div class="code-box" style="margin-top: 24px;">
-          <div class="code-label">Your Connect Code</div>
-          <div class="code-value">${code}</div>
-        </div>
-        
-        <p class="hint">After installing, enter this code in the app to connect.</p>
-      `;
-    }
-    
-    function showError(msg) {
-      contentEl.innerHTML = `
-        <p class="error-msg">${escapeHtml(msg)}</p>
-        <a href="/" class="btn btn-primary">Go to ReferVo</a>
-      `;
-    }
-    
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-    
+    function showNotFound() { contentEl.innerHTML = '<p class="error-msg">This connect code wasn\'t found.</p><p style="color:#4b5563;margin-bottom:24px">The code may be expired or incorrect.</p><a href="/" class="btn btn-primary">Go to ReferVo</a>'; }
+    function showFallback() { contentEl.innerHTML = '<a href="refervo://connect/' + code + '" class="btn btn-primary"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Open in ReferVo</a><div class="divider">or get the app</div><div class="store-buttons"><a href="https://apps.apple.com/app/refervo/id6759116716" class="store-btn"><svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>Download for iOS</a></div><div class="code-box" style="margin-top:24px"><div class="code-label">Your Connect Code</div><div class="code-value">' + code + '</div></div><p class="hint">After installing, enter this code in the app to connect.</p>'; }
+    function showError(msg) { contentEl.innerHTML = '<p class="error-msg">' + msg + '</p><a href="/" class="btn btn-primary">Go to ReferVo</a>'; }
     init();
   </script>
 </body>
