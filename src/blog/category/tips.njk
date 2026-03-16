@@ -1,0 +1,35 @@
+---
+layout: base
+title: Referral Tips & Best Practices - ReferVo Blog
+description: Actionable tips and best practices for making the most of your referral network and earning more with ReferVo.
+permalink: /blog/category/tips/
+---
+
+<div class="blog-header">
+  <div class="container">
+    <a href="/blog/" class="back-link">← Back to Blog</a>
+    <h1><span>Tips &</span> Best Practices</h1>
+    <p>Actionable advice to maximize your referral earnings</p>
+  </div>
+</div>
+
+<section class="blog-section">
+  <div class="container">
+    <div class="blog-categories">
+      <a href="/blog/" class="category-pill">All</a>
+      <a href="/blog/category/contractors/" class="category-pill">Contractors</a>
+      <a href="/blog/category/realtors/" class="category-pill">Realtors</a>
+      <a href="/blog/category/agencies/" class="category-pill">Agencies</a>
+      <a href="/blog/category/tips/" class="category-pill active">Tips</a>
+      <a href="/blog/category/news/" class="category-pill">News</a>
+    </div>
+
+    <div class="articles-grid">
+      {% for article in collections.articles %}
+        {% if article.data.category == "tips" %}
+          {% include "partials/article-card.njk" %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

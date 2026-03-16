@@ -1,0 +1,35 @@
+---
+layout: base
+title: Agency Referral Strategies - ReferVo Blog
+description: How marketing agencies, staffing firms, and service agencies can build profitable referral partnerships with ReferVo.
+permalink: /blog/category/agencies/
+---
+
+<div class="blog-header">
+  <div class="container">
+    <a href="/blog/" class="back-link">← Back to Blog</a>
+    <h1><span>Agency</span> Articles</h1>
+    <p>Referral strategies for agencies and service firms</p>
+  </div>
+</div>
+
+<section class="blog-section">
+  <div class="container">
+    <div class="blog-categories">
+      <a href="/blog/" class="category-pill">All</a>
+      <a href="/blog/category/contractors/" class="category-pill">Contractors</a>
+      <a href="/blog/category/realtors/" class="category-pill">Realtors</a>
+      <a href="/blog/category/agencies/" class="category-pill active">Agencies</a>
+      <a href="/blog/category/tips/" class="category-pill">Tips</a>
+      <a href="/blog/category/news/" class="category-pill">News</a>
+    </div>
+
+    <div class="articles-grid">
+      {% for article in collections.articles %}
+        {% if article.data.category == "agencies" %}
+          {% include "partials/article-card.njk" %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

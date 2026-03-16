@@ -1,0 +1,35 @@
+---
+layout: base
+title: Contractor Referral Tips - ReferVo Blog
+description: Learn how contractors can grow their business and earn passive income through smart referral strategies with ReferVo.
+permalink: /blog/category/contractors/
+---
+
+<div class="blog-header">
+  <div class="container">
+    <a href="/blog/" class="back-link">← Back to Blog</a>
+    <h1><span>Contractor</span> Articles</h1>
+    <p>Tips and strategies for contractors to grow their referral network</p>
+  </div>
+</div>
+
+<section class="blog-section">
+  <div class="container">
+    <div class="blog-categories">
+      <a href="/blog/" class="category-pill">All</a>
+      <a href="/blog/category/contractors/" class="category-pill active">Contractors</a>
+      <a href="/blog/category/realtors/" class="category-pill">Realtors</a>
+      <a href="/blog/category/agencies/" class="category-pill">Agencies</a>
+      <a href="/blog/category/tips/" class="category-pill">Tips</a>
+      <a href="/blog/category/news/" class="category-pill">News</a>
+    </div>
+
+    <div class="articles-grid">
+      {% for article in collections.articles %}
+        {% if article.data.category == "contractors" %}
+          {% include "partials/article-card.njk" %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

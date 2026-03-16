@@ -1,0 +1,35 @@
+---
+layout: base
+title: Realtor Referral Tips - ReferVo Blog
+description: Discover how real estate agents can leverage their network to earn referral fees and grow their business with ReferVo.
+permalink: /blog/category/realtors/
+---
+
+<div class="blog-header">
+  <div class="container">
+    <a href="/blog/" class="back-link">← Back to Blog</a>
+    <h1><span>Realtor</span> Articles</h1>
+    <p>Referral strategies for real estate professionals</p>
+  </div>
+</div>
+
+<section class="blog-section">
+  <div class="container">
+    <div class="blog-categories">
+      <a href="/blog/" class="category-pill">All</a>
+      <a href="/blog/category/contractors/" class="category-pill">Contractors</a>
+      <a href="/blog/category/realtors/" class="category-pill active">Realtors</a>
+      <a href="/blog/category/agencies/" class="category-pill">Agencies</a>
+      <a href="/blog/category/tips/" class="category-pill">Tips</a>
+      <a href="/blog/category/news/" class="category-pill">News</a>
+    </div>
+
+    <div class="articles-grid">
+      {% for article in collections.articles %}
+        {% if article.data.category == "realtors" %}
+          {% include "partials/article-card.njk" %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
