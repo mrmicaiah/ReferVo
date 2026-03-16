@@ -1,0 +1,112 @@
+---
+layout: base
+title: Android Waitlist - ReferVo
+description: Get notified when ReferVo launches on Android. Join the waitlist for early access.
+permalink: /android/
+---
+
+<div class="page-header">
+  <div class="container">
+    <h1><span class="text-orange">Android</span> Coming Soon</h1>
+    <p>We're working hard to bring ReferVo to Android. Join the waitlist to be the first to know when it launches.</p>
+  </div>
+</div>
+
+<section class="android-waitlist-section">
+  <div class="container">
+    <div class="android-waitlist-content">
+      {% set headline = "Be First in Line" %}
+      {% set subhead = "Enter your email and we'll notify you the moment ReferVo is available on Android." %}
+      {% set source = "android-page" %}
+      {% include "partials/email-capture.njk" %}
+      
+      <div class="android-features">
+        <h3>What You'll Get</h3>
+        <ul>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            Early access to the Android app
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            All features from day one
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            Priority support for early adopters
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="android-ios-note">
+      <p>Already have an iPhone? <a href="{{ site.appStoreUrl }}" target="_blank" rel="noopener">Download ReferVo for iOS</a> →</p>
+    </div>
+  </div>
+</section>
+
+<style>
+.android-waitlist-section {
+  padding: 3rem 0 5rem;
+}
+
+.android-waitlist-content {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.android-features {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: var(--white);
+  border: 1px solid var(--gray-border);
+  border-radius: 16px;
+}
+
+.android-features h3 {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+.android-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.android-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  color: var(--gray-dark);
+  font-size: 0.95rem;
+}
+
+.android-features li svg {
+  flex-shrink: 0;
+  color: #22c55e;
+}
+
+.android-features li:not(:last-child) {
+  border-bottom: 1px solid var(--gray-border);
+}
+
+.android-ios-note {
+  margin-top: 3rem;
+  text-align: center;
+  padding: 1.5rem;
+  background: var(--gray-light);
+  border-radius: 12px;
+}
+
+.android-ios-note p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.android-ios-note a {
+  color: var(--orange);
+  font-weight: 600;
+}
+</style>
