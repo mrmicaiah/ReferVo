@@ -6,7 +6,9 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({"src/_redirects": "_redirects"});
   
   // Passthrough .well-known for deep linking (Apple/Android app association)
+  // Check both locations - root level takes precedence
   eleventyConfig.addPassthroughCopy({".well-known": ".well-known"});
+  eleventyConfig.addPassthroughCopy({"src/.well-known": ".well-known"});
   
   // Passthrough CNAME for custom domain
   eleventyConfig.addPassthroughCopy("CNAME");
