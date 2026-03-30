@@ -8,6 +8,12 @@
 /appstore https://apps.apple.com/app/id6759116716 302
 /get https://apps.apple.com/app/id6759116716 302
 
+# Join/Connect links - catch any code pattern
+# These show a landing page first, then redirect to App Store
+/join/:code /join/ 200
+/c/:code /join/ 200
+/connect/:code /join/ 200
+
 # Future Android redirect (placeholder)
 # /android https://play.google.com/store/apps/details?id=com.refervo 302
 
