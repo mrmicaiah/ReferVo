@@ -8,11 +8,10 @@
 /appstore https://apps.apple.com/app/id6759116716 302
 /get https://apps.apple.com/app/id6759116716 302
 
-# Join/Connect links - catch any code pattern
-# These show a landing page first, then redirect to App Store
-/join/:code /join/ 200
-/c/:code /join/ 200
-/connect/:code /join/ 200
+# NOTE: /join/:code, /c/:code, /connect/:code are handled as Universal Links
+# by iOS (via apple-app-site-association). They open the app directly if installed.
+# Eleventy generates /join/index.html as fallback for web browsers.
+# Do NOT add 200 rewrites here - they break Universal Links!
 
 # Future Android redirect (placeholder)
 # /android https://play.google.com/store/apps/details?id=com.refervo 302
