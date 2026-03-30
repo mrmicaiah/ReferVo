@@ -1,17 +1,2 @@
-# Cloudflare Pages compatible config
-# This ensures /join/XXXXX falls back to /join/index.html
-
-[[redirects]]
-  from = "/join/*"
-  to = "/join/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/c/*"
-  to = "/join/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/connect/*"
-  to = "/join/index.html"
-  status = 200
+# This file is not used - Cloudflare Pages uses _redirects instead
+# Keeping as reference only
