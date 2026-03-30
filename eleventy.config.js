@@ -5,6 +5,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({"src/images": "images"});
   eleventyConfig.addPassthroughCopy({"src/_redirects": "_redirects"});
   eleventyConfig.addPassthroughCopy({"src/_headers": "_headers"});
+  eleventyConfig.addPassthroughCopy({"src/_routes.json": "_routes.json"});
   eleventyConfig.addPassthroughCopy({"src/robots.txt": "robots.txt"});
   
   // Passthrough .well-known for deep linking (Apple/Android app association)
