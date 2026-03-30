@@ -1,11 +1,8 @@
 # Cloudflare Pages custom headers
 
-# Ensure Universal Links work - no caching on AASA
-/.well-known/*
-  Cache-Control: no-cache
-  Content-Type: application/json
-
-# Allow cross-origin for app association files
 /.well-known/apple-app-site-association
-  Access-Control-Allow-Origin: *
   Content-Type: application/json
+  Cache-Control: max-age=86400
+
+/.well-known/*
+  Access-Control-Allow-Origin: *
