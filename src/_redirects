@@ -1,4 +1,4 @@
-# ReferVo Redirects
+# ReferVo Redirects (Cloudflare Pages format)
 # Format: /old-path /new-path [status]
 
 # App Store shortcuts
@@ -8,17 +8,12 @@
 /appstore https://apps.apple.com/app/id6759116716 302
 /get https://apps.apple.com/app/id6759116716 302
 
-# NOTE: /join/:code, /c/:code, /connect/:code are handled as Universal Links
-# by iOS (via apple-app-site-association). They open the app directly if installed.
-# Eleventy generates /join/index.html as fallback for web browsers.
-# Do NOT add 200 rewrites here - they break Universal Links!
+# Dynamic join routes - serve the join page for any code
+# These are Universal Links, so iOS will open the app if installed
+# If not installed, this serves the fallback landing page
+/join/* /join/index.html 200
+/c/* /join/index.html 200
+/connect/* /join/index.html 200
 
 # Future Android redirect (placeholder)
 # /android https://play.google.com/store/apps/details?id=com.refervo 302
-
-# Social redirects (when ready)
-# /twitter https://twitter.com/refervo 302
-# /linkedin https://linkedin.com/company/refervo 302
-
-# Redirect www to non-www (backup - Cloudflare handles this)
-# https://www.refervo.com/* https://refervo.com/:splat 301
