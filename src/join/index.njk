@@ -108,11 +108,6 @@ description: Join ReferVo to connect with this business partner.
     font-size: 0.875rem;
     color: var(--gray-text);
   }
-  
-  .countdown {
-    font-weight: 600;
-    color: var(--primary);
-  }
 </style>
 
 <section class="join-container">
@@ -142,9 +137,7 @@ description: Join ReferVo to connect with this business partner.
       Open ReferVo
     </a>
     
-    <p class="redirect-notice" id="redirectNotice" style="display: none;">
-      Opening App Store in <span class="countdown" id="countdown">3</span> seconds...
-    </p>
+    <p class="redirect-notice" id="redirectNotice">Opening app...</p>
   </div>
 </section>
 
@@ -152,28 +145,33 @@ description: Join ReferVo to connect with this business partner.
   (function() {
     var path = window.location.pathname;
     var match = path.match(/\/join\/([0-9]+)/i);
+    var appStoreUrl = '{{ site.appStoreUrl }}';
     
     if (match && match[1]) {
       var code = match[1];
       var codeDisplay = document.getElementById('codeDisplay');
       var connectCode = document.getElementById('connectCode');
       var redirectNotice = document.getElementById('redirectNotice');
-      var countdownEl = document.getElementById('countdown');
       
       // Show the code
       connectCode.textContent = code;
       codeDisplay.style.display = 'block';
-      redirectNotice.style.display = 'block';
       
-      // Countdown and redirect
-      var seconds = 3;
-      var timer = setInterval(function() {
-        seconds--;
-        countdownEl.textContent = seconds;
-        if (seconds <= 0) {
-          clearInterval(timer);
-          window.location.href = '{{ site.appStoreUrl }}';
-        }
+      // Try custom URL scheme first (passes the code if app is installed)
+      var appUrl = 'refervo://join/' + code;
+      window.location.href = appUrl;
+      
+      // If app not installed, custom scheme fails silently
+      // Fall back to App Store after 1.5 seconds
+      setTimeout(function() {
+        redirectNotice.textContent = 'Opening App Store...';
+        window.location.href = appStoreUrl;
+      }, 1500);
+    } else {
+      // No code in URL, just go to App Store
+      document.getElementById('redirectNotice').textContent = 'Redirecting to App Store...';
+      setTimeout(function() {
+        window.location.href = appStoreUrl;
       }, 1000);
     }
   })();
