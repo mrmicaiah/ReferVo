@@ -85,11 +85,15 @@ async function fetchReferrer(formCode) {
 async function insertLead({ business, referrer, clientName, clientPhone, serviceRequested }) {
   const url = `${SUPABASE_URL}/rest/v1/leads`;
 
+  const nowIso = new Date().toISOString();
   const body = {
     receiver_id:        business.id,
     referrer_id:        referrer.id,
     source:             'public_form',
-    status:             'pending_review',
+    // Public leads are free and auto-accepted — they go straight into the
+    // receiver's "Accepted" tab so they can call/text the customer.
+    status:             'accepted',
+    accepted_at:        nowIso,
     client_name:        clientName,
     client_phone:       clientPhone,
     service_requested:  serviceRequested,
