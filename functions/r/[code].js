@@ -9,6 +9,8 @@
 const SUPABASE_URL      = 'https://cbddrhejxrynlhfahulz.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNiZGRyaGVqeHJ5bmxoZmFodWx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4NjM0MzgsImV4cCI6MjA4MjQzOTQzOH0.Bk4Co4j6cskSADp4tJE-q4AVQcKbMUtLnwXuVH9hyJY';
 
+const APP_STORE_URL = 'https://apps.apple.com/app/id6759116716';
+
 // ─────────────────────────────────────────────────────────────────────────
 // Route entry
 // ─────────────────────────────────────────────────────────────────────────
@@ -381,17 +383,23 @@ function baseStyles() {
       margin-bottom: 1rem;
     }
     .cta-button {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
       background: var(--white);
       color: var(--orange-dark);
       font-family: var(--font-display);
       font-weight: 700;
       font-size: 0.95rem;
-      padding: 0.75rem 1.25rem;
+      padding: 0.85rem 1.25rem;
       border-radius: 10px;
       text-decoration: none;
+      width: 100%;
+      box-sizing: border-box;
     }
     .cta-button:hover { background: rgba(255,255,255,0.92); }
+    .cta-button svg { flex-shrink: 0; }
   `;
 }
 
@@ -514,10 +522,15 @@ function renderThankYou({ business, referrer, clientName }) {
         <h2>\ud83d\udcb0 Next time, you could get paid.</h2>
         <p>
           When you refer someone to a business you love, you deserve a thank-you.
-          Join ReferVo and ${isPerson ? 'businesses can send you cash' : 'every referral can pay you back'}
+          Download ReferVo and ${isPerson ? 'businesses can send you cash' : 'every referral can pay you back'}
           \u2014 or you can donate every dollar to a charity you pick.
         </p>
-        <a href="https://refervo.com" class="cta-button">Learn more \u2192</a>
+        <a href="${APP_STORE_URL}" class="cta-button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+          </svg>
+          Download the App
+        </a>
       </div>
     </div>
 
