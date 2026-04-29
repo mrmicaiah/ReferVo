@@ -7,9 +7,10 @@
 // No build step. No npm. Just a single Cloudflare Pages Function.
 //
 // Lead-routing: phantom referrers (converted_business_id IS NULL) create
-// free auto-accepted leads, just like before. Once the referrer has been
-// claimed and approved by an admin, new submissions on the same form code
-// route through the claimer's connection as paid pending_acceptance leads.
+// FREE pending_acceptance leads — receiver gets to accept/reject like a paid
+// lead, just no money moves. Once the referrer has been claimed and approved
+// by an admin, new submissions on the same form code route through the
+// claimer's connection as paid pending_acceptance leads.
 
 const SUPABASE_URL      = 'https://cbddrhejxrynlhfahulz.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNiZGRyaGVqeHJ5bmxoZmFodWx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4NjM0MzgsImV4cCI6MjA4MjQzOTQzOH0.Bk4Co4j6cskSADp4tJE-q4AVQcKbMUtLnwXuVH9hyJY';
@@ -23,12 +24,10 @@ export async function onRequest(context) {
   const { request, params } = context;
   const rawCode = String(params.code || '').trim().toUpperCase();
 
-  // Basic sanity: 8 chars, alphanumeric only
   if (!/^[A-Z0-9]{6,12}$/.test(rawCode)) {
     return htmlResponse(renderError('Invalid link', 'This referral link doesn\u2019t look right. Please double-check the URL.'), 404);
   }
 
-  // Look up the referrer + their business
   const lookup = await fetchReferrer(rawCode);
   if (!lookup) {
     return htmlResponse(renderError('Link not found', 'This referral link is no longer active.'), 404);
@@ -48,8 +47,6 @@ export async function onRequest(context) {
 // ─────────────────────────────────────────────────────────────────────────
 
 async function fetchReferrer(formCode) {
-  // Returns { referrer, business } or null. The referrer payload includes
-  // converted_business_id so the POST handler can branch on phantom vs claimed.
   const url = new URL(`${SUPABASE_URL}/rest/v1/referrers`);
   url.searchParams.set('form_code', `eq.${formCode}`);
   url.searchParams.set('select', 'id,business_id,type,name,form_code,converted_user_id,converted_business_id');
@@ -69,7 +66,6 @@ async function fetchReferrer(formCode) {
 
   const referrer = rows[0];
 
-  // Fetch the receiving business name/logo for display
   const bUrl = new URL(`${SUPABASE_URL}/rest/v1/businesses`);
   bUrl.searchParams.set('id', `eq.${referrer.business_id}`);
   bUrl.searchParams.set('select', 'id,name,logo,accepting_leads');
@@ -90,17 +86,7 @@ async function fetchReferrer(formCode) {
   return { referrer, business: bRows[0] };
 }
 
-// Look up the active connection between a claimed referrer and the receiving
-// business. Returns one of:
-//   { kind: 'personal',  connectionId, leadFee }
-//   { kind: 'business',  connectionId, leadFee }
-//   { kind: 'missing' }   — claimer's account_type matched but no row found
-//   { kind: 'unknown' }   — claimer record itself wasn't found
-//
-// We try personal_connections first because most claimers will be personal
-// accounts. If that misses, fall back to connections.
 async function fetchConnectionForClaimedReferrer({ claimerBusinessId, receiverBusinessId }) {
-  // Need the claimer's account_type to know which table to query.
   const cUrl = new URL(`${SUPABASE_URL}/rest/v1/businesses`);
   cUrl.searchParams.set('id', `eq.${claimerBusinessId}`);
   cUrl.searchParams.set('select', 'id,account_type');
@@ -135,14 +121,12 @@ async function fetchConnectionForClaimedReferrer({ claimerBusinessId, receiverBu
     if (!Array.isArray(pcRows) || pcRows.length === 0) return { kind: 'missing' };
 
     const pc = pcRows[0];
-    // Take the agreed fee, falling back to standard rate
     const fee = parseFloat(pc.business_offered_fee || pc.personal_proposed_fee || pc.business_standard_rate || 0);
     if (!fee || fee <= 0) return { kind: 'missing' };
 
     return { kind: 'personal', connectionId: pc.id, leadFee: fee };
   }
 
-  // Business claimer → connections table; need to find the right side.
   const cnnUrl = new URL(`${SUPABASE_URL}/rest/v1/connections`);
   cnnUrl.searchParams.set('or', `(and(requester_id.eq.${claimerBusinessId},receiver_id.eq.${receiverBusinessId}),and(requester_id.eq.${receiverBusinessId},receiver_id.eq.${claimerBusinessId}))`);
   cnnUrl.searchParams.set('select', 'id,status,requester_id,receiver_id,requester_fee,receiver_fee,requester_standard_rate,receiver_standard_rate');
@@ -159,11 +143,7 @@ async function fetchConnectionForClaimedReferrer({ claimerBusinessId, receiverBu
   if (!Array.isArray(cnnRows) || cnnRows.length === 0) return { kind: 'missing' };
 
   const cnn = cnnRows[0];
-  // The fee paid TO the lead-sender is the *other* side's fee column.
-  // Claimer is the lead sender. Look up which side they're on.
   const claimerIsRequester = cnn.requester_id === claimerBusinessId;
-  // Sender (claimer) gets paid the fee specified for them in the connection.
-  // Mirror what process-lead-payment does: senderIsRequester ? receiver_fee : requester_fee.
   const fee = claimerIsRequester
     ? parseFloat(cnn.receiver_fee || cnn.receiver_standard_rate || 0)
     : parseFloat(cnn.requester_fee || cnn.requester_standard_rate || 0);
@@ -174,65 +154,48 @@ async function fetchConnectionForClaimedReferrer({ claimerBusinessId, receiverBu
 
 async function insertLead({ business, referrer, clientName, clientPhone, serviceRequested }) {
   const url = `${SUPABASE_URL}/rest/v1/leads`;
-  const nowIso = new Date().toISOString();
 
-  // Decide branch: phantom (pre-claim) vs claimed-and-paid.
   const isClaimed = !!referrer.converted_business_id;
+
+  // Phantom shape — free, awaiting acceptance, no sender, no expiration
+  const phantomBody = {
+    receiver_id:        business.id,
+    referrer_id:        referrer.id,
+    source:             'public_form',
+    status:             'pending_acceptance',
+    accepted_at:        null,
+    client_name:        clientName,
+    client_phone:       clientPhone,
+    service_requested:  serviceRequested,
+    notes:              `Service requested: ${serviceRequested}`,
+    sender_id:               null,
+    lead_fee:                null,
+    connection_id:           null,
+    personal_connection_id:  null,
+  };
 
   let body;
 
   if (!isClaimed) {
-    // Phantom path — free, auto-accepted, no sender.
-    body = {
-      receiver_id:        business.id,
-      referrer_id:        referrer.id,
-      source:             'public_form',
-      status:             'accepted',
-      accepted_at:        nowIso,
-      client_name:        clientName,
-      client_phone:       clientPhone,
-      service_requested:  serviceRequested,
-      notes:              `Service requested: ${serviceRequested}`,
-      sender_id:               null,
-      lead_fee:                null,
-      connection_id:           null,
-      personal_connection_id:  null,
-    };
+    body = phantomBody;
   } else {
-    // Claimed path — look up the connection, route as paid lead.
     const conn = await fetchConnectionForClaimedReferrer({
       claimerBusinessId:  referrer.converted_business_id,
       receiverBusinessId: business.id,
     });
 
     if (conn.kind === 'unknown' || conn.kind === 'missing') {
-      // Fall back to phantom-style insert so we don't drop the lead. This is
-      // a defensive guard — under normal flow approve_phantom_claim creates
-      // the connection up-front. If it's missing here, treat the lead as a
-      // free phantom going to the receiver, log the incident server-side.
+      // Defensive: if the claimer has no connection (shouldn't happen), fall
+      // back to phantom shape so the lead isn't dropped.
       console.error('Claimed referrer is missing connection. Falling back to phantom flow.', {
         referrer_id: referrer.id,
         claimer: referrer.converted_business_id,
         receiver: business.id,
         kind: conn.kind,
       });
-      body = {
-        receiver_id:        business.id,
-        referrer_id:        referrer.id,
-        source:             'public_form',
-        status:             'accepted',
-        accepted_at:        nowIso,
-        client_name:        clientName,
-        client_phone:       clientPhone,
-        service_requested:  serviceRequested,
-        notes:              `Service requested: ${serviceRequested}`,
-        sender_id:               null,
-        lead_fee:                null,
-        connection_id:           null,
-        personal_connection_id:  null,
-      };
+      body = phantomBody;
     } else {
-      // Paid lead — pending acceptance from receiver.
+      // Paid lead — pending acceptance from receiver, with sender + connection.
       body = {
         receiver_id:        business.id,
         referrer_id:        referrer.id,
@@ -288,7 +251,6 @@ async function handlePost(request, referrer, business) {
   const clientPhoneRaw   = String(form.get('phone') || '').trim();
   const serviceRequested = String(form.get('service') || '').trim();
 
-  // Validation
   const errors = [];
   if (!clientName || clientName.length < 2)      errors.push('Please enter your full name.');
   if (clientName.length > 100)                   errors.push('Name is too long.');
@@ -330,7 +292,7 @@ async function handlePost(request, referrer, business) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// HTML rendering
+// HTML rendering (unchanged)
 // ─────────────────────────────────────────────────────────────────────────
 
 function escapeHtml(str) {
@@ -372,176 +334,34 @@ function baseStyles() {
       -webkit-font-smoothing: antialiased;
     }
     .container { max-width: 460px; margin: 0 auto; }
-    .logo {
-      text-align: center;
-      font-family: var(--font-display);
-      font-size: 1.75rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.5rem;
-    }
+    .logo { text-align: center; font-family: var(--font-display); font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
     .logo-refer { color: var(--orange); }
     .logo-vo    { color: var(--black); }
-    .card {
-      background: var(--white);
-      border-radius: 20px;
-      padding: 1.75rem 1.5rem;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-    }
-    h1 {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 800;
-      line-height: 1.25;
-      margin-bottom: 0.5rem;
-    }
-    .subtitle {
-      color: var(--gray-text);
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
-      line-height: 1.5;
-    }
-    .referrer-line {
-      display: inline-block;
-      background: var(--gray-light);
-      color: var(--gray-strong);
-      padding: 0.35rem 0.75rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-    label {
-      display: block;
-      font-family: var(--font-display);
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--gray-strong);
-      margin-bottom: 0.4rem;
-      margin-top: 1rem;
-    }
+    .card { background: var(--white); border-radius: 20px; padding: 1.75rem 1.5rem; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08); }
+    h1 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem; }
+    .subtitle { color: var(--gray-text); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5; }
+    .referrer-line { display: inline-block; background: var(--gray-light); color: var(--gray-strong); padding: 0.35rem 0.75rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; }
+    label { display: block; font-family: var(--font-display); font-size: 0.85rem; font-weight: 600; color: var(--gray-strong); margin-bottom: 0.4rem; margin-top: 1rem; }
     label:first-of-type { margin-top: 0; }
-    input[type="text"], input[type="tel"], textarea {
-      width: 100%;
-      font-family: var(--font-body);
-      font-size: 1rem;
-      padding: 0.85rem 1rem;
-      background: var(--white);
-      border: 1.5px solid var(--gray-border);
-      border-radius: 12px;
-      color: var(--black);
-      transition: border-color 0.15s ease;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-    input:focus, textarea:focus {
-      outline: none;
-      border-color: var(--orange);
-    }
+    input[type="text"], input[type="tel"], textarea { width: 100%; font-family: var(--font-body); font-size: 1rem; padding: 0.85rem 1rem; background: var(--white); border: 1.5px solid var(--gray-border); border-radius: 12px; color: var(--black); transition: border-color 0.15s ease; -webkit-appearance: none; appearance: none; }
+    input:focus, textarea:focus { outline: none; border-color: var(--orange); }
     textarea { resize: vertical; min-height: 90px; }
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      width: 100%;
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 0.95rem 1.25rem;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      margin-top: 1.5rem;
-      transition: transform 0.1s ease, box-shadow 0.15s ease;
-    }
-    .btn-primary {
-      background: var(--black);
-      color: var(--white);
-    }
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
-    }
+    .btn { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; font-family: var(--font-display); font-weight: 700; font-size: 1rem; padding: 0.95rem 1.25rem; border-radius: 12px; border: none; cursor: pointer; margin-top: 1.5rem; transition: transform 0.1s ease, box-shadow 0.15s ease; }
+    .btn-primary { background: var(--black); color: var(--white); }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18); }
     .btn-primary:active { transform: translateY(0); }
-    .errors {
-      background: var(--red-light);
-      border: 1px solid #fecaca;
-      border-radius: 10px;
-      padding: 0.75rem 1rem;
-      margin-bottom: 1rem;
-      color: var(--red);
-      font-size: 0.9rem;
-    }
+    .errors { background: var(--red-light); border: 1px solid #fecaca; border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 1rem; color: var(--red); font-size: 0.9rem; }
     .errors ul { list-style: none; }
     .errors li { padding: 0.15rem 0; }
-    .small-print {
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--gray-text);
-      margin-top: 1rem;
-      line-height: 1.4;
-    }
-    .footer {
-      text-align: center;
-      margin-top: 1.5rem;
-      font-size: 0.8rem;
-      color: var(--gray-text);
-    }
-    .footer a {
-      color: var(--orange);
-      text-decoration: none;
-    }
+    .small-print { text-align: center; font-size: 0.75rem; color: var(--gray-text); margin-top: 1rem; line-height: 1.4; }
+    .footer { text-align: center; margin-top: 1.5rem; font-size: 0.8rem; color: var(--gray-text); }
+    .footer a { color: var(--orange); text-decoration: none; }
     .footer a:hover { text-decoration: underline; }
-
-    /* Thank-you page */
-    .success-icon {
-      width: 64px;
-      height: 64px;
-      background: var(--green-light);
-      border: 3px solid var(--green);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1.25rem;
-      font-size: 2rem;
-    }
-    .cta-card {
-      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-      border-radius: 16px;
-      padding: 1.5rem;
-      margin-top: 1.5rem;
-      color: var(--white);
-    }
-    .cta-card h2 {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-    }
-    .cta-card p {
-      font-size: 0.9rem;
-      line-height: 1.5;
-      opacity: 0.95;
-      margin-bottom: 1rem;
-    }
-    .cta-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      background: var(--white);
-      color: var(--orange-dark);
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 0.95rem;
-      padding: 0.85rem 1.25rem;
-      border-radius: 10px;
-      text-decoration: none;
-      width: 100%;
-      box-sizing: border-box;
-    }
+    .success-icon { width: 64px; height: 64px; background: var(--green-light); border: 3px solid var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-size: 2rem; }
+    .cta-card { background: linear-gradient(135deg, var(--orange), var(--orange-dark)); border-radius: 16px; padding: 1.5rem; margin-top: 1.5rem; color: var(--white); }
+    .cta-card h2 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .cta-card p { font-size: 0.9rem; line-height: 1.5; opacity: 0.95; margin-bottom: 1rem; }
+    .cta-button { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background: var(--white); color: var(--orange-dark); font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; padding: 0.85rem 1.25rem; border-radius: 10px; text-decoration: none; width: 100%; box-sizing: border-box; }
     .cta-button:hover { background: rgba(255,255,255,0.92); }
     .cta-button svg { flex-shrink: 0; }
   `;
@@ -713,7 +533,6 @@ function htmlResponse(html, status = 200) {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'no-store',
-      // Basic security headers
       'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'no-referrer-when-downgrade',
     },
