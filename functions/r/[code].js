@@ -5,6 +5,11 @@
 //   POST /r/ABC12345   → inserts a lead into Supabase, returns thank-you page
 //
 // No build step. No npm. Just a single Cloudflare Pages Function.
+//
+// Lead-routing: phantom referrers (converted_business_id IS NULL) create
+// free auto-accepted leads, just like before. Once the referrer has been
+// claimed and approved by an admin, new submissions on the same form code
+// route through the claimer's connection as paid pending_acceptance leads.
 
 const SUPABASE_URL      = 'https://cbddrhejxrynlhfahulz.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNiZGRyaGVqeHJ5bmxoZmFodWx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4NjM0MzgsImV4cCI6MjA4MjQzOTQzOH0.Bk4Co4j6cskSADp4tJE-q4AVQcKbMUtLnwXuVH9hyJY';
@@ -43,10 +48,11 @@ export async function onRequest(context) {
 // ─────────────────────────────────────────────────────────────────────────
 
 async function fetchReferrer(formCode) {
-  // Returns { referrer, business } or null
+  // Returns { referrer, business } or null. The referrer payload includes
+  // converted_business_id so the POST handler can branch on phantom vs claimed.
   const url = new URL(`${SUPABASE_URL}/rest/v1/referrers`);
   url.searchParams.set('form_code', `eq.${formCode}`);
-  url.searchParams.set('select', 'id,business_id,type,name,form_code');
+  url.searchParams.set('select', 'id,business_id,type,name,form_code,converted_user_id,converted_business_id');
   url.searchParams.set('limit', '1');
 
   const res = await fetch(url.toString(), {
@@ -63,7 +69,7 @@ async function fetchReferrer(formCode) {
 
   const referrer = rows[0];
 
-  // Fetch the business name/logo for display
+  // Fetch the receiving business name/logo for display
   const bUrl = new URL(`${SUPABASE_URL}/rest/v1/businesses`);
   bUrl.searchParams.set('id', `eq.${referrer.business_id}`);
   bUrl.searchParams.set('select', 'id,name,logo,accepting_leads');
@@ -84,28 +90,166 @@ async function fetchReferrer(formCode) {
   return { referrer, business: bRows[0] };
 }
 
+// Look up the active connection between a claimed referrer and the receiving
+// business. Returns one of:
+//   { kind: 'personal',  connectionId, leadFee }
+//   { kind: 'business',  connectionId, leadFee }
+//   { kind: 'missing' }   — claimer's account_type matched but no row found
+//   { kind: 'unknown' }   — claimer record itself wasn't found
+//
+// We try personal_connections first because most claimers will be personal
+// accounts. If that misses, fall back to connections.
+async function fetchConnectionForClaimedReferrer({ claimerBusinessId, receiverBusinessId }) {
+  // Need the claimer's account_type to know which table to query.
+  const cUrl = new URL(`${SUPABASE_URL}/rest/v1/businesses`);
+  cUrl.searchParams.set('id', `eq.${claimerBusinessId}`);
+  cUrl.searchParams.set('select', 'id,account_type');
+  cUrl.searchParams.set('limit', '1');
+  const cRes = await fetch(cUrl.toString(), {
+    headers: {
+      'apikey':        SUPABASE_ANON_KEY,
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+      'Accept':        'application/json',
+    },
+  });
+  if (!cRes.ok) return { kind: 'unknown' };
+  const cRows = await cRes.json();
+  if (!Array.isArray(cRows) || cRows.length === 0) return { kind: 'unknown' };
+  const claimer = cRows[0];
+
+  if (claimer.account_type === 'personal') {
+    const pcUrl = new URL(`${SUPABASE_URL}/rest/v1/personal_connections`);
+    pcUrl.searchParams.set('personal_account_id', `eq.${claimerBusinessId}`);
+    pcUrl.searchParams.set('business_id', `eq.${receiverBusinessId}`);
+    pcUrl.searchParams.set('select', 'id,status,business_offered_fee,personal_proposed_fee,business_standard_rate');
+    pcUrl.searchParams.set('limit', '1');
+    const pcRes = await fetch(pcUrl.toString(), {
+      headers: {
+        'apikey':        SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Accept':        'application/json',
+      },
+    });
+    if (!pcRes.ok) return { kind: 'missing' };
+    const pcRows = await pcRes.json();
+    if (!Array.isArray(pcRows) || pcRows.length === 0) return { kind: 'missing' };
+
+    const pc = pcRows[0];
+    // Take the agreed fee, falling back to standard rate
+    const fee = parseFloat(pc.business_offered_fee || pc.personal_proposed_fee || pc.business_standard_rate || 0);
+    if (!fee || fee <= 0) return { kind: 'missing' };
+
+    return { kind: 'personal', connectionId: pc.id, leadFee: fee };
+  }
+
+  // Business claimer → connections table; need to find the right side.
+  const cnnUrl = new URL(`${SUPABASE_URL}/rest/v1/connections`);
+  cnnUrl.searchParams.set('or', `(and(requester_id.eq.${claimerBusinessId},receiver_id.eq.${receiverBusinessId}),and(requester_id.eq.${receiverBusinessId},receiver_id.eq.${claimerBusinessId}))`);
+  cnnUrl.searchParams.set('select', 'id,status,requester_id,receiver_id,requester_fee,receiver_fee,requester_standard_rate,receiver_standard_rate');
+  cnnUrl.searchParams.set('limit', '1');
+  const cnnRes = await fetch(cnnUrl.toString(), {
+    headers: {
+      'apikey':        SUPABASE_ANON_KEY,
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+      'Accept':        'application/json',
+    },
+  });
+  if (!cnnRes.ok) return { kind: 'missing' };
+  const cnnRows = await cnnRes.json();
+  if (!Array.isArray(cnnRows) || cnnRows.length === 0) return { kind: 'missing' };
+
+  const cnn = cnnRows[0];
+  // The fee paid TO the lead-sender is the *other* side's fee column.
+  // Claimer is the lead sender. Look up which side they're on.
+  const claimerIsRequester = cnn.requester_id === claimerBusinessId;
+  // Sender (claimer) gets paid the fee specified for them in the connection.
+  // Mirror what process-lead-payment does: senderIsRequester ? receiver_fee : requester_fee.
+  const fee = claimerIsRequester
+    ? parseFloat(cnn.receiver_fee || cnn.receiver_standard_rate || 0)
+    : parseFloat(cnn.requester_fee || cnn.requester_standard_rate || 0);
+  if (!fee || fee <= 0) return { kind: 'missing' };
+
+  return { kind: 'business', connectionId: cnn.id, leadFee: fee };
+}
+
 async function insertLead({ business, referrer, clientName, clientPhone, serviceRequested }) {
   const url = `${SUPABASE_URL}/rest/v1/leads`;
-
   const nowIso = new Date().toISOString();
-  const body = {
-    receiver_id:        business.id,
-    referrer_id:        referrer.id,
-    source:             'public_form',
-    // Public leads are free and auto-accepted — they go straight into the
-    // receiver's "Accepted" tab so they can call/text the customer.
-    status:             'accepted',
-    accepted_at:        nowIso,
-    client_name:        clientName,
-    client_phone:       clientPhone,
-    service_requested:  serviceRequested,
-    notes:              `Service requested: ${serviceRequested}`,
-    // RLS explicitly requires these to be null for public_form leads:
-    sender_id:               null,
-    lead_fee:                null,
-    connection_id:           null,
-    personal_connection_id:  null,
-  };
+
+  // Decide branch: phantom (pre-claim) vs claimed-and-paid.
+  const isClaimed = !!referrer.converted_business_id;
+
+  let body;
+
+  if (!isClaimed) {
+    // Phantom path — free, auto-accepted, no sender.
+    body = {
+      receiver_id:        business.id,
+      referrer_id:        referrer.id,
+      source:             'public_form',
+      status:             'accepted',
+      accepted_at:        nowIso,
+      client_name:        clientName,
+      client_phone:       clientPhone,
+      service_requested:  serviceRequested,
+      notes:              `Service requested: ${serviceRequested}`,
+      sender_id:               null,
+      lead_fee:                null,
+      connection_id:           null,
+      personal_connection_id:  null,
+    };
+  } else {
+    // Claimed path — look up the connection, route as paid lead.
+    const conn = await fetchConnectionForClaimedReferrer({
+      claimerBusinessId:  referrer.converted_business_id,
+      receiverBusinessId: business.id,
+    });
+
+    if (conn.kind === 'unknown' || conn.kind === 'missing') {
+      // Fall back to phantom-style insert so we don't drop the lead. This is
+      // a defensive guard — under normal flow approve_phantom_claim creates
+      // the connection up-front. If it's missing here, treat the lead as a
+      // free phantom going to the receiver, log the incident server-side.
+      console.error('Claimed referrer is missing connection. Falling back to phantom flow.', {
+        referrer_id: referrer.id,
+        claimer: referrer.converted_business_id,
+        receiver: business.id,
+        kind: conn.kind,
+      });
+      body = {
+        receiver_id:        business.id,
+        referrer_id:        referrer.id,
+        source:             'public_form',
+        status:             'accepted',
+        accepted_at:        nowIso,
+        client_name:        clientName,
+        client_phone:       clientPhone,
+        service_requested:  serviceRequested,
+        notes:              `Service requested: ${serviceRequested}`,
+        sender_id:               null,
+        lead_fee:                null,
+        connection_id:           null,
+        personal_connection_id:  null,
+      };
+    } else {
+      // Paid lead — pending acceptance from receiver.
+      body = {
+        receiver_id:        business.id,
+        referrer_id:        referrer.id,
+        sender_id:          referrer.converted_business_id,
+        source:             'public_form',
+        status:             'pending_acceptance',
+        accepted_at:        null,
+        client_name:        clientName,
+        client_phone:       clientPhone,
+        service_requested:  serviceRequested,
+        notes:              `Service requested: ${serviceRequested}`,
+        lead_fee:           conn.leadFee,
+        connection_id:           conn.kind === 'business' ? conn.connectionId : null,
+        personal_connection_id:  conn.kind === 'personal' ? conn.connectionId : null,
+      };
+    }
+  }
 
   const res = await fetch(url, {
     method: 'POST',
