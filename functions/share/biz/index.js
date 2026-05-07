@@ -11,15 +11,15 @@
 //
 // Recipients on a device with the ReferVo app can tap "Add to My ReferVo" to
 // deep-link straight into the import flow (handled in Phase 3c). Recipients
-// without the app see the App Store link.
+// without the app land on /get which routes them to the right store.
 
 import { decodeMyBizShareUrl } from './_shared.js';
 
-const APP_STORE_URL = 'https://apps.apple.com/app/id6759116716';
+const DOWNLOAD_URL = 'https://refervo.com/get';
 
-// ─────────────────────────────────────────────────────────────────────────
+// ───────────────────────────────────────────────────────────────────
 // Route entry
-// ─────────────────────────────────────────────────────────────────────────
+// ───────────────────────────────────────────────────────────────────
 export async function onRequest(context) {
   const { request } = context;
   const url = new URL(request.url);
@@ -34,9 +34,9 @@ export async function onRequest(context) {
   return htmlResponse(renderShare({ card, rawD: d }), 200);
 }
 
-// ─────────────────────────────────────────────────────────────────────────
+// ───────────────────────────────────────────────────────────────────
 // Helpers
-// ─────────────────────────────────────────────────────────────────────────
+// ───────────────────────────────────────────────────────────────────
 
 function escapeHtml(str) {
   if (str == null) return '';
@@ -191,9 +191,9 @@ function headHtml(title, ogMeta = '') {
   `;
 }
 
-// ─────────────────────────────────────────────────────────────────────────
+// ───────────────────────────────────────────────────────────────────
 // Templates
-// ─────────────────────────────────────────────────────────────────────────
+// ───────────────────────────────────────────────────────────────────
 
 function renderShare({ card, rawD }) {
   const safeName  = escapeHtml(card.name);
@@ -261,7 +261,7 @@ function renderShare({ card, rawD }) {
         </svg>
       </a>
 
-      <a href="${APP_STORE_URL}" class="cta-secondary">
+      <a href="${DOWNLOAD_URL}" class="cta-secondary">
         Don\u2019t have ReferVo? <strong>Get it \u2192</strong>
       </a>
     </div>
