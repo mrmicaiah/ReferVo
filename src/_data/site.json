@@ -3,7 +3,12 @@
   "tagline": "Connect. Refer. Earn.",
   "description": "The business referral app that helps you get paid for the referrals you're already making.",
   "url": "https://refervo.com",
-  "appStoreUrl": "https://apps.apple.com/app/id6759116716",
+
+  "_comment_download_links": "appStoreUrl is the SMART/UNIVERSAL link — use this in every page CTA. It detects the visitor's platform and redirects to the right store. Use iosAppStoreUrl / androidPlayStoreUrl only when you explicitly want to render two side-by-side store badges (e.g. cta-box.njk).",
+  "appStoreUrl": "https://refervo.com/get",
+  "iosAppStoreUrl": "https://apps.apple.com/app/id6759116716",
+  "androidPlayStoreUrl": "https://play.google.com/store/apps/details?id=com.refervo.app",
+
   "email": {
     "hello": "hello@refervo.com",
     "support": "support@refervo.com"
