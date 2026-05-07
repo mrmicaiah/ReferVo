@@ -6,11 +6,13 @@
         <h2>{{ ctaTitle | default("Free to Join. You Set Your Rates.") }}</h2>
         <p>{{ ctaText | default("Download the ReferVo <strong>business referral app</strong> and start earning from the referrals you're already making. Negotiate <strong>referral fees</strong> directly with your network — we just handle the payments.") | safe }}</p>
         <div class="store-badges">
-          <a href="{{ site.appStoreUrl }}" class="store-badge-link" target="_blank" rel="noopener">
+          <a href="{{ site.iosAppStoreUrl }}" class="store-badge-link" target="_blank" rel="noopener" aria-label="Download on the App Store">
             <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" class="store-badge">
           </a>
+          <a href="{{ site.androidPlayStoreUrl }}" class="store-badge-link" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+            <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" class="store-badge">
+          </a>
         </div>
-        <p class="android-coming-soon">Android coming soon</p>
       </div>
     </div>
   </div>
