@@ -184,14 +184,6 @@
       color: var(--orange);
     }
     
-    /* Android note */
-    .android-note {
-      font-size: 0.85rem;
-      color: var(--gray-text);
-      margin-top: 1.5rem;
-      font-style: italic;
-    }
-    
     /* Loading State */
     .loading {
       display: none;
@@ -251,7 +243,7 @@
     <!-- Loading State -->
     <div class="loading">
       <div class="spinner"></div>
-      <p class="loading-text">Taking you to the App Store...</p>
+      <p class="loading-text">Taking you to the store...</p>
     </div>
     
     <!-- Main Card -->
@@ -279,8 +271,6 @@
       <a href="https://refervo.com" class="btn btn-secondary">
         Learn more about ReferVo →
       </a>
-      
-      <p class="android-note">Android coming soon!</p>
     </div>
     
     <!-- Footer -->
@@ -297,7 +287,9 @@
       const SUPABASE_URL = 'https://cbddrhejxrynlhfahulz.supabase.co';
       const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNiZGRyaGVqeHJ5bmxoZmFodWx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgwMTEyMTgsImV4cCI6MjA1MzU4NzIxOH0.UJukTJwM3A6Foa2dJx8xPJl6E5dLWMHiLWIYizcPkwI';
       
-      // App Store URL - ReferVo Apple ID: 6759116716
+      // Direct store URLs — this static page does its own UA detection so the
+      // user gets the right store with one redirect, not two. /get exists for
+      // anywhere we can't do client-side detection (server-rendered HTML).
       const APP_STORE_URL = 'https://apps.apple.com/app/refervo/id6759116716';
       const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.refervo.app';
       
@@ -433,7 +425,6 @@
           </svg>
           Get it on Google Play
         `;
-        document.querySelector('.android-note').style.display = 'none';
       }
       
       // Auto-redirect on mobile (with slight delay for UX)
