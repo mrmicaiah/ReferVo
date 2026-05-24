@@ -392,7 +392,7 @@ function renderForm({ referrer, business, code, errors = [], values = {} }) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
-  ${headHtml(`Send a lead to ${business.name}`)}
+  ${headHtml(`Get in touch with ${business.name}`)}
 </head>
 <body>
   <div class="container">
